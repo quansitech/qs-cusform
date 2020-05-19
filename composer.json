@@ -1,0 +1,31 @@
+{
+  "name": "quansitech/cus-form",
+  "description": "qscmf cus-form",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "95869",
+      "email": "958691165@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "tiderjian/think-core": ">=9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CusForm\\": "src/"
+    }
+  },
+  "extra": {
+    "qscmf": {
+      "providers": [
+        "CusForm\\CusFormProvider"
+      ]
+    },
+    "branch-alias":{
+      "dev-master":"1.0.x-dev"
+    }
+  }
+}
