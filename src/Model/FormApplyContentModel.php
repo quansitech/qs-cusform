@@ -33,7 +33,6 @@ class FormApplyContentModel extends GyListModel
             if ($apply_id===false){
                 E($formApplyModel->getError());
             }
-            dump($apply_id);
 
             foreach ($formItems as $formItem) {
                 if (!isset($data['cus_form_'.$formItem['id']])){
