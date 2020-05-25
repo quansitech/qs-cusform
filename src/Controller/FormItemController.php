@@ -20,7 +20,7 @@ class FormItemController extends \Qscmf\Core\QsListController
         $formModel=new FormModel();
         $form=$formModel->find($id);
         $get_data = I('get.');
-        $map = array('form_id'=>$id);
+        $map = array('form_id'=>$id,'deleted'=> \Qscmf\Lib\DBCont::NO_BOOL_STATUS);
         $model = new FormItemModel();
         $count = $model->getListForCount($map);
         $per_page = C('ADMIN_PER_PAGE_NUM', null, false);
@@ -127,18 +127,16 @@ class FormItemController extends \Qscmf\Core\QsListController
     }
 
     public function delete(){
+        $model = new FormItemModel();
         $ids = I('ids');
         if(!$ids){
             $this->error('请选择要删除的数据');
         }
-        $r = parent::_del($ids);
-        if($r === false){
-            $this->error($this->_getError());
+        $r = $model->where(['id'=>['in',$ids]])->setField('deleted',\Qscmf\Lib\DBCont::YES_BOOL_STATUS);
+        if ($r===false){
+            $this->error($model->getError());
         }
-        else{
-            sysLogs('信件id: ' . $ids . ' 删除');
-            $this->success('删除成功');
-        }
+        $this->success('删除成功');
     }
     public function save(){
         if(IS_POST){

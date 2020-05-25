@@ -7,6 +7,7 @@ namespace CusForm;
 use CusForm\Model\FormApplyContentModel;
 use CusForm\Model\FormItemModel;
 use Qscmf\Builder\FormBuilder;
+use Qscmf\Lib\DBCont;
 
 class CusForm
 {
@@ -33,7 +34,7 @@ class CusForm
         $res=[];
         $formItemModel=new FormItemModel();
         $formApplyContentModel=new FormApplyContentModel();
-        $formItems=$formItemModel->where(['form_id'=>$form_id])->order('sort asc')->select();
+        $formItems=$formItemModel->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
         foreach ($formItems as $formItem) {
             $re=$formItem;
             unset($re['id']);
@@ -61,7 +62,7 @@ class CusForm
      * @return FormBuilder
      */
     public function generateFormItem($builder, $form_id, $apply_id){
-        $items=D('FormItem')->where(['form_id'=>$form_id])->order('sort asc')->select();
+        $items=D('FormItem')->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
         foreach ($items as $item) {
             $content=D('FormApplyContent')->where(['form_apply_id'=>$apply_id,'form_item_id'=>$item['id']])->getField('content');
             $builder->addFormItem('','self',$item['title'],'',$this->_genStaticHtml($item,$content));

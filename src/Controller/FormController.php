@@ -8,13 +8,14 @@ use CusForm\CusForm;
 use CusForm\Model\FormModel;
 use Gy_Library\GyListController;
 use Qscmf\Builder\FormBuilder;
+use Qscmf\Lib\DBCont;
 
 class FormController extends GyListController
 {
 
     public function index(){
         $get_data = I('get.');
-        $map = array();
+        $map = array('deleted'=>DBCont::NO_BOOL_STATUS);
         $model = new FormModel();
         $count = $model->getListForCount($map);
         $per_page = C('ADMIN_PER_PAGE_NUM', null, false);
@@ -86,5 +87,17 @@ class FormController extends GyListController
                 ->addFormItem('description','ueditor','表单辅助说明')
                 ->display();
         }
+    }
+    public function delete(){
+        $ids = I('ids');
+        $model = new FormModel();
+        if(!$ids){
+            $this->error('请选择要删除的数据');
+        }
+        $r = $model->where(['id'=>['in',$ids]])->setField('deleted',\Qscmf\Lib\DBCont::YES_BOOL_STATUS);
+        if ($r===false){
+            $this->error($model->getError());
+        }
+        $this->success('删除成功');
     }
 }

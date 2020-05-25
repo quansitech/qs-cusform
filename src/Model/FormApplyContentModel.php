@@ -21,7 +21,7 @@ class FormApplyContentModel extends GyListModel
 
     public function saveAll($form_id, $data){
         $formItemModel=new FormItemModel();
-        $formItems=$formItemModel->where(['form_id'=>$form_id])->order('sort')->select();
+        $formItems=$formItemModel->where(['form_id'=>$form_id,'deleted'=> \Qscmf\Lib\DBCont::NO_BOOL_STATUS])->order('sort')->select();
         if (!$formItems){
             return true;
         }
