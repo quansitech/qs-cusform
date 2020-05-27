@@ -39,7 +39,9 @@ class FormApplyContentModel extends GyListModel
                     $data['cus_form_'.$formItem['id']]='';
                 }
                 if ($formItem['type']==FormItemModel::CHECK_BOX){
-                    $data['cus_form_'.$formItem['id']]=implode(',',$data['cus_form_'.$formItem['id']]);
+                    if (is_array($data['cus_form_'.$formItem['id']])){
+                        $data['cus_form_'.$formItem['id']]=implode(',',$data['cus_form_'.$formItem['id']]);
+                    }
                 }
                 if ($formItem['required']==DBCont::NO_BOOL_STATUS
                     || ($formItem['required']==DBCont::YES_BOOL_STATUS
