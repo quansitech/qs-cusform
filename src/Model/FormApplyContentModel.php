@@ -23,7 +23,7 @@ class FormApplyContentModel extends GyListModel
         $formItemModel=new FormItemModel();
         $formItems=$formItemModel->where(['form_id'=>$form_id,'deleted'=> \Qscmf\Lib\DBCont::NO_BOOL_STATUS])->order('sort')->select();
         if (!$formItems){
-            return true;
+            return 0;
         }
         $this->startTrans();
         try{
