@@ -1,0 +1,12 @@
+<script src="__PUBLIC__/cusform/cusform-bundle.js"></script>
+<script>
+    jQuery(document).ready(function($){
+        $('.item_title').after('<div id="app"></div>');
+        <php>
+            $selectOptions = \CusForm\Model\FormItemModel::getSelectOptions();
+        </php>
+        var options = {:json_encode($selectOptions, JSON_PRETTY_PRINT)}
+
+        cusForm('app', { selectOptions: options, type: '{$type}', typeOption: '{$typeOption}'});
+    });
+</script>

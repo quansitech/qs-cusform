@@ -28,19 +28,72 @@ class FormItemModel extends GyListModel
     const RADIO='radio';
     const FILE='file';
     const DESCRIPTION='description';
+    const CHECKBOX_TEXT='checkbox-text';
+    const RADIO_TEXT='radio-text';
 
-    private static $itemType=array(
-        self::TEXT=>'单行文本',
-        self::TEXTAREA=>'多行文本',
-        self::SELECT=>'下拉选择',
-        self::CHECK_BOX=>'多选',
-        self::CITY=>'城市',
-        self::RADIO=>'单选',
-        self::PICTURE=>'图片',
-        self::PICTURES=>'多图',
-        self::FILE=>'文件',
-        self::DESCRIPTION=>'说明文本',
-    );
+
+    private static $selectedOptions = [
+        [
+            'value' => self::TEXT,
+            'text' => '单行文本',
+            'component' => null
+        ],
+        [
+            'value' => self::TEXTAREA,
+            'text' => '多行文本',
+            'component' => null
+        ],
+        [
+            'value' => self::SELECT,
+            'text' => '下拉选择',
+            'component' => 'input'
+        ],
+        [
+            'value' => self::CHECK_BOX,
+            'text' => '多选',
+            'component' => 'input'
+        ],
+        [
+            'value' => self::CITY,
+            'text' => '城市',
+            'component' => null
+        ],
+        [
+            'value' => self::RADIO,
+            'text' => '单选',
+            'component' => 'input'
+        ],
+        [
+            'value' => self::PICTURE,
+            'text' => '图片',
+            'component' => null
+        ],
+        [
+            'value' => self::PICTURES,
+            'text' => '多图',
+            'component' => null
+        ],
+        [
+            'value' => self::FILE,
+            'text' => '文件',
+            'component' => null
+        ],
+        [
+            'value' => self::DESCRIPTION,
+            'text' => '说明文本',
+            'component' => null
+        ],
+        [
+            'value' => self::CHECKBOX_TEXT,
+            'text' => '多选文本',
+            'component' => 'option-text'
+        ],
+        [
+            'value' => self::RADIO_TEXT,
+            'text' => '单选文本',
+            'component' => 'option-text'
+        ]
+    ];
 
     const OTHER_LIMIT_LIST=[
         'min_limit'=>['title'=>'最小字数限制','error_msg'=>'__FIELD__必需__VALUE__个字以上','check'=>'minLimit']
@@ -50,9 +103,19 @@ class FormItemModel extends GyListModel
         return (mb_strlen($data)>=$value);
     }
 
+    public static function getSelectOptions(){
+        return self::$selectedOptions;
+    }
+
+    public static function returnItemType(){
+        return collect(self::$selectedOptions)->map(function($option, $index){
+            return [$option['value'] => $option['text']];
+        })->collapse()->all();
+    }
+
     public static function getItemTypeList(){
         if (!C('CUS_FORM_ITEM_TYPES')) {
-            return self::$itemType;
+            return self::returnItemType();
         }
         $types=C('CUS_FORM_ITEM_TYPES');
         $res=[];
@@ -63,7 +126,8 @@ class FormItemModel extends GyListModel
     }
 
     public static function getItemType($type){
-        return self::$itemType[$type];
+        $itemType = self::returnItemType();
+        return $itemType[$type];
     }
 
     private function _handleLimit(&$data){

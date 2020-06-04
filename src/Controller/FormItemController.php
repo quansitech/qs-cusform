@@ -74,14 +74,13 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->setFormData(['required'=>DBCont::NO_BOOL_STATUS])
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
-                ->addFormItem('type','select','类型','',FormItemModel::getItemTypeList())
-                ->addFormItem('options','text','选项','格式为xxx,xx,xx')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
             foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
                 $builder=$builder->addFormItem($key,'text',$item['title']);
             }
+            $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemAddExtra.html'));
             $builder->display();
         }
     }
@@ -114,14 +113,15 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->setNIDByNode(MODULE_NAME,'Form')
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
-                ->addFormItem('type','select','类型','',FormItemModel::getItemTypeList())
-                ->addFormItem('options','text','选项','格式为xxx,xx,xx')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
             foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
                 $builder=$builder->addFormItem($key,'text',$item['title']);
             }
+            $this->assign('type', $formItem['type']);
+            $this->assign('typeOption', htmlspecialchars_decode($formItem['options']));
+            $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemEditExtra.html'));
             $builder->display();
         }
     }
