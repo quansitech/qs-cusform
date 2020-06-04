@@ -74,6 +74,7 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->setFormData(['required'=>DBCont::NO_BOOL_STATUS])
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
+                ->addFormItem('placeholder','text','占位符')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
@@ -114,6 +115,7 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
                 ->addFormItem('sort','text','排序')
+                ->addFormItem('placeholder','text','占位符')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
             foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
