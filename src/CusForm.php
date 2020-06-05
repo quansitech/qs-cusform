@@ -89,6 +89,20 @@ class CusForm
                 $title=D('FilePic')->where(['id'=>$content])->getField('title');
                 $html.='<a download href="'.showFileUrl($content).'">'.$title.'</a>';
                 break;
+            case FormItemModel::RADIO_TEXT:
+            case FormItemModel::CHECKBOX_TEXT:
+                $arr = json_decode(htmlspecialchars_decode($content), true);
+                if(isset($arr['title'])){
+                    $arr = [ $arr ];
+                }
+                collect($arr)->each(function($item) use (&$html){
+                    $html .= "<p>{$item['title']}";
+                    if(isset($item['text'])){
+                        $html .= " | {$item['text']}";
+                    }
+                    $html .= "</p>";
+                });
+                break;
             default:
                 $html.=$content;
                 break;

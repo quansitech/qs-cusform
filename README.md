@@ -52,3 +52,28 @@ name为上一步返回items中的name <br>
 $builder=\CusForm\CusForm::getInstance()->generateFormItem($builder,$form_id,$apply_id);
 $builder->display();
 ```
+
+### 新增多选文本及单选文本类型
+格式说明
+```json
+//title为答案名称， need_text为true表示点选后必须填写额外的内容
+[
+    {"title": "语文", "need_text": true},
+    {"title": "数学", "need_text": false}
+]
+```
+
+多选文本提交格式说明
+```json
+//如果定义了need_text的项，而内容提交时没有text，将会无法提交
+[
+  {"title": "语文", "text": "90分"},
+  {"title": "数学"}
+]
+```
+
+单选文本提交格式说明
+```json
+//如果定义了need_text的项，而内容提交时没有text，将会无法提交
+{"title": "其他", "text": "社会大学"}
+```

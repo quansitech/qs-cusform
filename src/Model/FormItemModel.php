@@ -6,6 +6,7 @@ namespace CusForm\Model;
 
 use Gy_Library\GyListModel;
 use phpDocumentor\Reflection\Types\This;
+use Think\Exception;
 
 class FormItemModel extends GyListModel
 {
@@ -155,6 +156,107 @@ class FormItemModel extends GyListModel
         }
         return true;
     }
+
+    public function parseCheckboxText($data, $options){
+        $res_arr = self::parseCommonText($data, $options, function($option, $data){
+            //基于option项格式化数据，如果need_text为true，又没填写就会返回抛出异常
+            //所有检查完毕后，返回option匹配的结果，没有匹配项就返回空数组
+            $res = [];
+            collect($data)->each(function($item, $index) use ($option, $res){
+                if($option['title'] == $item['title']){
+                    if($option['need_text'] == true && qsEmpty($item['text'])){
+                        E($option['title'] . ' 未填写完全');
+                    }
+
+                    $res[$option['title']] = isset($item['text']) ? $item['text'] : null;
+                }
+            });
+
+            if(empty($res)){
+                return [];
+            }
+
+            if(is_null($res[key($res)])){
+                return ['title' => key($res)];
+            }
+            else{
+                return ['title' => key($res), 'text' => $res[key($res)]];
+            }
+        });
+
+        if(empty($res_arr)){
+            $res_arr = '';
+        }
+
+        if(is_array($res_arr)){
+            return json_encode($res_arr);
+        }
+        else{
+            return $res_arr;
+        }
+
+    }
+
+    public function parseRadioText($data, $options){
+        $res_arr = self::parseCommonText($data, $options, function($option, $data){
+            //基于option项格式化数据，如果need_text为true，又没填写就会返回抛出异常
+            //检查完毕后，返回option匹配的结果，没有匹配项就返回空数组
+
+            if($option['title'] != $data['title']){
+                return null;
+            }
+
+            if($option['title'] == $data['title']){
+                if($option['need_text'] == true && qsEmpty($data['text'])){
+                    E($option['title'] . ' 未填写完全');
+                }
+
+                return $data;
+            }
+        });
+
+        if(empty($res_arr)){
+            $res_arr = '';
+        }
+
+        if(is_array($res_arr)){
+            return json_encode($res_arr);
+        }
+        else{
+            return $res_arr;
+        }
+    }
+
+    protected function parseCommonText($data, $options, \closure $fn){
+        //空内容不做处理
+        if(empty($data)){
+            return '';
+        }
+
+        //统一转出数组内容
+        if(is_string($data)){
+            $content_arr = json_decode($data, true);
+        }
+        else{
+            $content_arr = $data;
+        }
+
+        $options = json_decode(htmlspecialchars_decode($options), true);
+        //检测内容格式是否正确，且text内容项有没填写
+        try{
+            $res = collect($options)->map(function($option, $index) use ($data, $fn){
+                return call_user_func($fn, $option, $data);
+            })->filter()->all();
+            return $res;
+        }
+        catch(Exception $ex){
+            $this->error = $ex->getMessage();
+            return false;
+        }
+    }
+
+
+
 
     public function addItem($data){
         $this->_handleLimit($data);
