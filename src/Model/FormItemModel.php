@@ -105,7 +105,13 @@ class FormItemModel extends GyListModel
     }
 
     public static function getSelectOptions(){
-        return self::$selectedOptions;
+        if (!C('CUS_FORM_ITEM_TYPES')) {
+            return self::$selectedOptions;
+        }
+        $types=C('CUS_FORM_ITEM_TYPES');
+        return array_reverse(array_filter(self::$selectedOptions,function ($item) use ($types){
+            return array_search($item['value'],$types)!==false;
+        }));
     }
 
     public static function returnItemType(){
