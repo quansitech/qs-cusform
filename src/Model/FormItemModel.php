@@ -109,7 +109,7 @@ class FormItemModel extends GyListModel
             return self::$selectedOptions;
         }
         $types=C('CUS_FORM_ITEM_TYPES');
-        return array_reverse(array_filter(self::$selectedOptions,function ($item) use ($types){
+        return array_values(array_filter(self::$selectedOptions,function ($item) use ($types){
             return array_search($item['value'],$types)!==false;
         }));
     }
