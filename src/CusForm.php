@@ -103,6 +103,9 @@ class CusForm
                     $html .= "</p>";
                 });
                 break;
+            case FormItemModel::TEXTAREA:
+                $html .= '<textarea class="form-control textarea" rows="5" name="message" readonly>'.$content.'</textarea>';
+                break;
             default:
                 $html.=$content;
                 break;
