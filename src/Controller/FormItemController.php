@@ -40,7 +40,7 @@ class FormItemController extends \Qscmf\Core\QsListController
         $builder
             ->setNIDByNode(MODULE_NAME,'Form')
             ->addTopButton('addnew',['href'=>U('add',['form_id'=>$id])])
-            ->addTopButton('save')
+            ->addTopButton('save',['title'=>'保存排序'])
             ->addTableColumn('title', '表单项标题')
             ->addTableColumn('type', '类型', 'fun', 'CusForm\\Model\\FormItemModel::getItemType(__data_id__)', false)
             ->addTableColumn('sort','排序','text','',true)
