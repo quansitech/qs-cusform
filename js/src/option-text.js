@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function OptionText(props){
 
-    let initItems = props.option ? JSON.parse(props.option) : [{ title: '', needText: false}];
+    let initItems = props.option ? JSON.parse(props.option) : [{ title: '', need_text: false}];
 
     const [items, setItems] = useState(initItems);
 
@@ -18,7 +18,7 @@ function OptionText(props){
 
     const changeNeedText = (e) => {
         let index = e.target.getAttribute('index');
-        items[index].needText = e.target.checked;
+        items[index].need_text = e.target.checked;
         setItems([ ...items ]);
     }
 
@@ -29,7 +29,7 @@ function OptionText(props){
     }
 
     const addItem = () => {
-        setItems([ ...items, { title: '', needText: false}]);
+        setItems([ ...items, { title: '', need_text: false}]);
     }
 
     return (
@@ -45,7 +45,7 @@ function OptionText(props){
                         return <tr key={index}>
                             <td className="sub_item_text"><input index={index} type="text" className="form-control input-sm" value={item.title} onChange={changeTitle} /></td>
                             <td className="sub_item_select">
-                                <input index={index} type="checkbox" className="form-control input-sm" checked={item.needText} onChange={changeNeedText}/>
+                                <input index={index} type="checkbox" className="form-control input-sm" checked={item.need_text} onChange={changeNeedText}/>
                             </td>
                             <td>
                                 <button index={index} type="button" className="btn btn-danger btn-sm" onClick={deleteItem}>删除</button>

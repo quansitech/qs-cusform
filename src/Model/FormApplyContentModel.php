@@ -45,7 +45,7 @@ class FormApplyContentModel extends GyListModel
                 }
 
                 if($formItem['type'] == FormItemModel::CHECKBOX_TEXT){
-                    $r = $formItemModel->parseCheckboxText($data, $formItem['options']);
+                    $r = $formItemModel->parseCheckboxText($data['cus_form_'.$formItem['id']], $formItem['options']);
                     if($r === false){
                         E($formItemModel->getError());
                     }
@@ -53,7 +53,7 @@ class FormApplyContentModel extends GyListModel
                 }
 
                 if($formItem['type'] == FormItemModel::RADIO_TEXT){
-                    $r = $formItemModel->parseRadioText($data, $formItem['options']);
+                    $r = $formItemModel->parseRadioText($data['cus_form_'.$formItem['id']], $formItem['options']);
                     if($r === false){
                         E($formItemModel->getError());
                     }
