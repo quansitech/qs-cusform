@@ -64,7 +64,8 @@ class FormApplyContentModel extends GyListModel
                     || ($formItem['required']==DBCont::YES_BOOL_STATUS
                         && trim($data['cus_form_'.$formItem['id']]))
                 ){
-                    $r=$formItemModel->checkLimit($data['cus_form_'.$formItem['id']],$formItem);
+                    $r=$formItemModel->checkLimit($data['cus_form_'.$formItem['id']],$formItem,
+                        [FormItemModel::TEXT,FormItemModel::TEXTAREA],'min_limit');
                     if ($r===false){
                         E($formItemModel->getError());
                     }

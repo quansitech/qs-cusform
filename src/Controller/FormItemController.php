@@ -74,12 +74,12 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->setFormData(['required'=>DBCont::NO_BOOL_STATUS])
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
-                ->addFormItem('placeholder','text','占位符')
+                ->addFormItem('placeholder','text','框内提示','仅文本类型有效')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
             foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
-                $builder=$builder->addFormItem($key,'text',$item['title']);
+                $builder=$builder->addFormItem($key,'text',$item['title'],$item['tips']);
             }
             $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemAddExtra.html'));
             $builder->display();
@@ -115,11 +115,11 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
                 ->addFormItem('sort','text','排序')
-                ->addFormItem('placeholder','text','占位符')
+                ->addFormItem('placeholder','text','框内提示','仅文本类型有效')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
             foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
-                $builder=$builder->addFormItem($key,'text',$item['title']);
+                $builder=$builder->addFormItem($key,'text',$item['title'],$item['tips']);
             }
             $this->assign('type', $formItem['type']);
             $this->assign('typeOption', htmlspecialchars_decode($formItem['options']));

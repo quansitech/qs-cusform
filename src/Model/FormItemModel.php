@@ -51,32 +51,32 @@ class FormItemModel extends GyListModel
         ],
         [
             'value' => self::CHECK_BOX,
-            'text' => '多选',
+            'text' => '多项选择',
             'component' => 'input'
         ],
         [
             'value' => self::CITY,
-            'text' => '城市',
+            'text' => '城市地区',
             'component' => null
         ],
         [
             'value' => self::RADIO,
-            'text' => '单选',
+            'text' => '单项选择',
             'component' => 'input'
         ],
         [
             'value' => self::PICTURE,
-            'text' => '图片',
+            'text' => '图片上传',
             'component' => null
         ],
         [
             'value' => self::PICTURES,
-            'text' => '多图',
+            'text' => '多图上传',
             'component' => null
         ],
         [
             'value' => self::FILE,
-            'text' => '文件',
+            'text' => '附件上传',
             'component' => null
         ],
         [
@@ -97,7 +97,12 @@ class FormItemModel extends GyListModel
     ];
 
     const OTHER_LIMIT_LIST=[
-        'min_limit'=>['title'=>'最小字数限制','error_msg'=>'__FIELD__必需__VALUE__个字以上','check'=>'minLimit']
+        'min_limit'=>[
+            'title'=>'最小字数限制',
+            'error_msg'=>'__FIELD__必需__VALUE__个字以上',
+            'check'=>'minLimit',
+            'tips'=>'仅文本类型有效'
+            ]
     ];
 
     public static function minLimit($data,$value){
@@ -146,10 +151,16 @@ class FormItemModel extends GyListModel
         $data['other_limit']=json_encode($limit);
     }
 
-    public function checkLimit($data,$formItem){
+    public function checkLimit($data,$formItem,$type=[],$limit_type=''){
+        if ($type && !in_array($formItem['type'],$type)){
+            return true;
+        }
         $other_limit=json_decode($formItem['other_limit'],true);
         if ($other_limit) {
             foreach ($other_limit as $key=>$item) {
+                if ($limit_type && $limit_type!=$key){
+                    return true;
+                }
                 $limit=self::OTHER_LIMIT_LIST[$key];
                 $fun=$limit['check'];
                 if (self::$fun($data,$item)==false){
