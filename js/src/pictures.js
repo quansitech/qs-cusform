@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 function Pictures(props){
 
     //0表示没有上传限制
-    let initOption = { max_upload_count: 0};
+    let initOption = { max_upload_count: ''};
 
     if(props.dataSource){
         let drJson = JSON.parse(props.dataSource);
@@ -30,7 +30,7 @@ function Pictures(props){
             <div className="right">
                 <input type="hidden" name="options" value={jsonOption} />
                 <input type='text' className="form-control input text" value={option.max_upload_count} onChange={changeMaxUploadCount} />
-                <span className="check-tips small">0表示没有上传数量限制</span>
+                <span className="check-tips small">留空或者0表示没有上传数量限制</span>
             </div>
         </div>
     );

@@ -77,9 +77,9 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
-            foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
-                $builder=$builder->addFormItem($key,'text',$item['title']);
-            }
+//            foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
+//                $builder=$builder->addFormItem($key,'text',$item['title'],$item['tips']);
+//            }
             $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemAddExtra.html'));
             $builder->display();
         }
@@ -114,12 +114,11 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
                 ->addFormItem('sort','text','排序')
-                ->addFormItem('placeholder','text','占位符')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
-            foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
-                $builder=$builder->addFormItem($key,'text',$item['title']);
-            }
+//            foreach (FormItemModel::OTHER_LIMIT_LIST as $key=>$item) {
+//                $builder=$builder->addFormItem($key,'text',$item['title'],$item['tips']);
+//            }
             $this->assign('type', $formItem['type']);
             $formItem['options'] = json_decode(htmlspecialchars_decode($formItem['options']));
             $formItem['other_limit'] = json_decode($formItem['other_limit']);
