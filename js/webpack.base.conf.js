@@ -8,7 +8,7 @@ module.exports = {
     output: {
         filename: 'cusform-bundle.js',
         path: path.join(__dirname, 'dist'),
-        publicPath: '/Public/cusform/'
+        //publicPath: '/Public/cusform/'
     },
     module: {
         rules: [

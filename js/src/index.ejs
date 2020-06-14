@@ -17,12 +17,12 @@
                 {
                     value: 'text',
                     text: '单行文本',
-                    component: null
+                    component: 'text'
                 },
                 {
                     value: 'textarea',
                     text: '多行文本',
-                    component: null
+                    component: 'text'
                 },
                 {
                     value: 'select',
@@ -52,7 +52,7 @@
                 {
                     value: 'pictures',
                     text: '多图',
-                    component: null
+                    component: 'pictures'
                 },
                 {
                     value: 'file',
@@ -75,7 +75,7 @@
                     component: 'option-text'
                 }
             ];
-                cusForm('root', { selectOptions: options, type: "checkbox-text", typeOption: '[{"title":"123","needText":true},{"title":"345","needText":true},{"title":"678","needText":false}]'}); //第一个参数是需要渲染的dom id， 第二个参数为上面的配置对象
+                cusForm('root', { selectOptions: options}); //第一个参数是需要渲染的dom id， 第二个参数为上面的配置对象
         </script>
     </body>
 </html>

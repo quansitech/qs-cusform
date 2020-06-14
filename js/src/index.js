@@ -13,7 +13,7 @@ function CusForm(props){
 
     const [selected, setSelected] = useState(initSelected);
     const [CusComponent, setCusComponent] = useState(null);
-    const [typeOption, setTypeOption] = useState(props.typeOption);
+    const [dataSource, setDataSource] = useState(props.dataSource);
 
     useEffect(() => {
         const compName = props.selectOptions[selected].component;
@@ -30,14 +30,14 @@ function CusForm(props){
 
     const handleSelect = (e) => {
         setSelected(e.target.selectedIndex);
-        setTypeOption('');
+        setDataSource(null);
     }
 
     const Cus = CusComponent ? CusComponent.default : null;
 
-    const update = (typeOption) => {
-        setTypeOption(typeOption);
-    }
+    // const update = (typeOption) => {
+    //     setTypeOption(typeOption);
+    // }
 
     return (
         <>
@@ -51,23 +51,16 @@ function CusForm(props){
                     </select>
                 </div>
             </div>
-            {Cus &&
-                (<div className="form-group item_options ">
-                    <label className="left control-label">选项：</label>
-                    <div className="right">
-                        <input type="hidden" name="options" value={typeOption} />
-                        <Cus update={update} option={typeOption} ></Cus>
-                    </div>
-                </div>)
+            {Cus && <Cus dataSource={dataSource} ></Cus>
             }
         </>
     );
 }
 
 function cusForm(id, opt){
-    const defaultOpt = { selectOptions: [], type: '', typeOption: '' };
+    const defaultOpt = { selectOptions: [], type: '', dataSource: '' };
     Object.assign(defaultOpt, opt);
-    ReactDOM.render(<CusForm selectOptions={defaultOpt.selectOptions} type={defaultOpt.type} typeOption={defaultOpt.typeOption} />, document.getElementById(id));
+    ReactDOM.render(<CusForm selectOptions={defaultOpt.selectOptions} type={defaultOpt.type} dataSource={defaultOpt.dataSource} />, document.getElementById(id));
 }
 
 window.cusForm = cusForm;

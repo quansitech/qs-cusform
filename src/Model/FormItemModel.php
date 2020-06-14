@@ -37,12 +37,12 @@ class FormItemModel extends GyListModel
         [
             'value' => self::TEXT,
             'text' => '单行文本',
-            'component' => null
+            'component' => 'text'
         ],
         [
             'value' => self::TEXTAREA,
             'text' => '多行文本',
-            'component' => null
+            'component' => 'text'
         ],
         [
             'value' => self::SELECT,
@@ -72,7 +72,7 @@ class FormItemModel extends GyListModel
         [
             'value' => self::PICTURES,
             'text' => '多图',
-            'component' => null
+            'component' => 'pictures'
         ],
         [
             'value' => self::FILE,

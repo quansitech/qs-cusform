@@ -74,7 +74,6 @@ class FormItemController extends \Qscmf\Core\QsListController
                 ->setFormData(['required'=>DBCont::NO_BOOL_STATUS])
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
-                ->addFormItem('placeholder','text','占位符')
                 ->addFormItem('tips','text','提示','')
                 ->addFormItem('sort','text','排序')
                 ->addFormItem('required','select','是否必填','',DBCont::getBoolStatusList());
@@ -122,7 +121,9 @@ class FormItemController extends \Qscmf\Core\QsListController
                 $builder=$builder->addFormItem($key,'text',$item['title']);
             }
             $this->assign('type', $formItem['type']);
-            $this->assign('typeOption', htmlspecialchars_decode($formItem['options']));
+            $formItem['options'] = json_decode(htmlspecialchars_decode($formItem['options']));
+            $formItem['other_limit'] = json_decode($formItem['other_limit']);
+            $this->assign('data_source', json_encode($formItem));
             $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemEditExtra.html'));
             $builder->display();
         }

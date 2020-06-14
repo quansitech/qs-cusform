@@ -7,6 +7,6 @@
         </php>
         var options = {:json_encode($selectOptions, JSON_PRETTY_PRINT)}
 
-        cusForm('app', { selectOptions: options, type: '{$type}', typeOption: '{$typeOption}'});
+        cusForm('app', { selectOptions: options, type: '{$type}', dataSource: '{$data_source}'});
     });
 </script>
