@@ -120,7 +120,12 @@ class FormItemController extends \Qscmf\Core\QsListController
 //                $builder=$builder->addFormItem($key,'text',$item['title'],$item['tips']);
 //            }
             $this->assign('type', $formItem['type']);
-            $formItem['options'] = json_decode(htmlspecialchars_decode($formItem['options']));
+            if(function_exists("is_json")){
+                $formItem['options'] = is_json(htmlspecialchars_decode($formItem['options'])) ? json_decode(htmlspecialchars_decode($formItem['options'])) : htmlspecialchars_decode($formItem['options']);
+            }
+            else{
+                $formItem['options'] = self::isJson(htmlspecialchars_decode($formItem['options'])) ? json_decode(htmlspecialchars_decode($formItem['options'])) : htmlspecialchars_decode($formItem['options']);
+            }
             $formItem['other_limit'] = json_decode($formItem['other_limit']);
             $this->assign('data_source', json_encode($formItem));
             $builder->setExtraHtml($this->fetch(__DIR__ . '/../View/FormItemEditExtra.html'));
@@ -149,5 +154,10 @@ class FormItemController extends \Qscmf\Core\QsListController
             }
             $this->success('保存成功');
         }
+    }
+
+    protected function isJson($string){
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }
