@@ -12,6 +12,7 @@ use CusForm\Model\FormItemModel;
 use CusForm\Model\FormModel;
 use Qscmf\Builder\FormBuilder;
 use Gy_Library\DBCont;
+use Think\Exception;
 
 
 class FormItemController extends \Qscmf\Core\QsListController
@@ -37,9 +38,10 @@ class FormItemController extends \Qscmf\Core\QsListController
 
         $builder = $builder->setMetaTitle('表单项列表-'.$form['title']);
 
-        $builder
-            ->setNIDByNode(MODULE_NAME,'Form')
-            ->addTopButton('addnew',['href'=>U('add',['form_id'=>$id])])
+        try {
+            $builder->setNIDByNode(MODULE_NAME,'Form');
+        }catch (Exception $e){}
+        $builder->addTopButton('addnew',['href'=>U('add',['form_id'=>$id])])
             ->addTopButton('save',['title'=>'保存排序'])
             ->addTableColumn('title', '表单项标题')
             ->addTableColumn('type', '类型', 'fun', 'CusForm\\Model\\FormItemModel::getItemType(__data_id__)', false)
@@ -69,8 +71,10 @@ class FormItemController extends \Qscmf\Core\QsListController
         }else{
             $form=D('Form')->find($form_id);
             $builder=new FormBuilder();
+            try {
+                $builder->setNIDByNode(MODULE_NAME,'Form');
+            }catch (Exception $e){}
             $builder=$builder->setMetaTitle('新建表单项-'.$form['title'])
-                ->setNIDByNode(MODULE_NAME,'Form')
                 ->setFormData(['required'=>DBCont::NO_BOOL_STATUS])
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
@@ -108,9 +112,11 @@ class FormItemController extends \Qscmf\Core\QsListController
             $formItem['other_limit']=$formItem['other_limit']?$formItem['other_limit']:'[]';
             $formItem=array_merge($formItem,json_decode($formItem['other_limit'],true));
             $builder=new FormBuilder();
+            try {
+                $builder->setNIDByNode(MODULE_NAME,'Form');
+            }catch (Exception $e){}
             $builder=$builder->setMetaTitle('编辑表单项-'.$form['title'])
                 ->setFormData($formItem)
-                ->setNIDByNode(MODULE_NAME,'Form')
                 ->addFormItem('form_id','self','','','<input type="hidden" name="form_id" value="'.$form_id.'">')
                 ->addFormItem('title','text','标题')
                 ->addFormItem('sort','text','排序')
