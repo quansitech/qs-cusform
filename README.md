@@ -79,7 +79,7 @@ $builder->display();
 ```
 
 ### 其它说明
-在config.php中加入以下代码可限制自定义表单项的类型
+在config.php中加入以下代码可限制自定义表单项的类型，具体对应类型请查看 [FormItemModel.php](https://github.com/quansitech/qs-cusform/blob/master/src/Model/FormItemModel.php) 中的"$selectedOptions"配置
 ```php
 'CUS_FORM_ITEM_TYPES' => [
     'text', //单行文本
@@ -89,4 +89,10 @@ $builder->display();
     'file', //文件上传
 ],
 ```
-具体对应类型请查看 [FormItemModel.php](https://github.com/quansitech/qs-cusform/blob/master/src/Model/FormItemModel.php) 中的"$selectedOptions"配置
+
+开启自定义表单说明字段，在项目根目录下的PackageConfig.php中加入代码
+```php
+'cusform'=>[
+    'form_description'=>true
+]
+```

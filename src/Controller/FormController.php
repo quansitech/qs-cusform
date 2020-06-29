@@ -58,11 +58,15 @@ class FormController extends GyListController
             }
         }else{
             $builder=new FormBuilder();
-            $builder->setMetaTitle('新建表单')
+            $builder=$builder->setMetaTitle('新建表单')
                 ->setNIDByNode()
-                ->addFormItem('title','text','标题')
-                ->addFormItem('description','ueditor','表单辅助说明')
-                ->display();
+                ->addFormItem('title','text','标题');
+            if (packageConfig('cusform','form_description')===true){
+                $builder=$builder->addFormItem('description','ueditor','表单辅助说明');
+            }else{
+                $builder=$builder->addFormItem('description','hidden','');
+            }
+            $builder->display();
         }
     }
     public function edit(){
@@ -84,8 +88,13 @@ class FormController extends GyListController
                 ->setFormData($data)
                 ->addFormItem('id','hidden','')
                 ->addFormItem('title','text','标题')
-                ->addFormItem('description','ueditor','表单辅助说明')
-                ->display();
+                ->addFormItem('title','text','标题');
+            if (packageConfig('cusform','form_description')===true){
+                $builder=$builder->addFormItem('description','ueditor','表单辅助说明');
+            }else{
+                $builder=$builder->addFormItem('description','hidden','');
+            }
+            $builder->display();
         }
     }
     public function delete(){
