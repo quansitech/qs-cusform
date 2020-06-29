@@ -87,7 +87,6 @@ class FormController extends GyListController
                 ->setNIDByNode()
                 ->setFormData($data)
                 ->addFormItem('id','hidden','')
-                ->addFormItem('title','text','标题')
                 ->addFormItem('title','text','标题');
             if (packageConfig('cusform','form_description')===true){
                 $builder=$builder->addFormItem('description','ueditor','表单辅助说明');
