@@ -183,7 +183,7 @@ class FormItemModel extends GyListModel
             //基于option项格式化数据，如果need_text为true，又没填写就会返回抛出异常
             //所有检查完毕后，返回option匹配的结果，没有匹配项就返回空数组
             $res = [];
-            collect($data)->each(function($item, $index) use ($option, $res){
+            collect($data)->each(function($item, $index) use ($option, &$res){
                 if($option['title'] == $item['title']){
                     if($option['need_text'] == true && qsEmpty($item['text'])){
                         E($option['title'] . ' 未填写完全');
