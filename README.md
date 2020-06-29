@@ -77,3 +77,16 @@ $builder->display();
 //如果定义了need_text的项，而内容提交时没有text，将会无法提交
 {"title": "其他", "text": "社会大学"}
 ```
+
+### 其它说明
+在config.php中加入以下代码可限制自定义表单项的类型
+```php
+'CUS_FORM_ITEM_TYPES' => [
+    'text', //单行文本
+    'select', //下拉选择
+    'checkbox', //多选框
+    'picture', //图片上传
+    'file', //文件上传
+],
+```
+具体对应类型请查看 [FormItemModel.php](https://github.com/quansitech/qs-cusform/blob/master/src/Model/FormItemModel.php) 中的"$selectedOptions"配置
