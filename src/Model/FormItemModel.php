@@ -155,6 +155,10 @@ class FormItemModel extends GyListModel
         if ($type && !in_array($formItem['type'],$type)){
             return true;
         }
+        if (!$data){
+            return true;
+        }
+
         $other_limit=json_decode($formItem['other_limit'],true);
         if ($other_limit) {
             foreach ($other_limit as $key=>$item) {
