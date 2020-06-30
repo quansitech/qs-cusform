@@ -47,12 +47,14 @@ class FormItemModel extends GyListModel
         [
             'value' => self::SELECT,
             'text' => '下拉选择',
-            'component' => 'input'
+            'component' => 'input',
+            'required' => ['options' => '选项不能为空']
         ],
         [
             'value' => self::CHECK_BOX,
             'text' => '多项选择',
-            'component' => 'input'
+            'component' => 'input',
+            'required' => ['options' => '选项不能为空']
         ],
         [
             'value' => self::CITY,
@@ -62,7 +64,8 @@ class FormItemModel extends GyListModel
         [
             'value' => self::RADIO,
             'text' => '单项选择',
-            'component' => 'input'
+            'component' => 'input',
+            'required' => ['options' => '选项不能为空']
         ],
         [
             'value' => self::PICTURE,
@@ -87,12 +90,14 @@ class FormItemModel extends GyListModel
         [
             'value' => self::CHECKBOX_TEXT,
             'text' => '多选文本',
-            'component' => 'option-text'
+            'component' => 'option-text',
+            'required' => ['options' => '选项不能为空']
         ],
         [
             'value' => self::RADIO_TEXT,
             'text' => '单选文本',
-            'component' => 'option-text'
+            'component' => 'option-text',
+            'required' => ['options' => '选项不能为空']
         ]
     ];
 
@@ -276,11 +281,38 @@ class FormItemModel extends GyListModel
         }
     }
 
+    protected function checkRequired($type, $data){
+        $option = collect(self::$selectedOptions)->first(function($option) use($type){
+            return $option['value'] == $type;
+        });
 
+        if(isset($option['required'])){
+            $err_msg = '';
+            collect($option['required'])->first(function($msg, $key) use($data, &$err_msg){
+                if(!isset($data[$key]) || qsEmpty($data[$key])){
+                    $err_msg = $msg;
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            });
+
+            if($err_msg){
+                $this->error = $err_msg;
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
     public function addItem($data){
         $this->_handleLimit($data);
+        if($this->checkRequired($data['type'], $data) === fasle){
+            return false;
+        }
 
         if ($this->createAdd($data)!==false){
             return true;
@@ -291,6 +323,9 @@ class FormItemModel extends GyListModel
 
     public function editItem($data){
         $this->_handleLimit($data);
+        if($this->checkRequired($data['type'], $data) === fasle){
+            return false;
+        }
 
         if ($this->createSave($data)!==false){
             return true;

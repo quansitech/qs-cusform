@@ -16,7 +16,13 @@ function OptionText(props){
 
     useEffect(() => {
         let filterItems = items.filter( item => item.title.length > 0 );
-        setOption(JSON.stringify(filterItems));
+        if(filterItems.length > 0){
+            setOption(JSON.stringify(filterItems));
+        }
+        else{
+            setOption('');
+        }
+
     }, [items]);
 
     const changeTitle = (e) => {
