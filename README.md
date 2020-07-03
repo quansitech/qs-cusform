@@ -53,6 +53,19 @@ $builder=\CusForm\CusForm::getInstance()->generateFormItem($builder,$form_id,$ap
 $builder->display();
 ```
 
+如果希望搭配已有的form表单展示，可将已有表单的$form_data传入第四个参数
+```php
+//已有表单（省略详细代码）
+$builder->addFormItem();
+.
+.
+.
+$builder=\CusForm\CusForm::getInstance()->generateFormItem($builder,$form_id,$apply_id, $form_data);
+$builder->setFormData($form_data);
+$builder->display();
+```
+
+
 ### 新增多选文本及单选文本类型
 格式说明
 ```json
