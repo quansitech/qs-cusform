@@ -91,6 +91,13 @@ class FormItemController extends \Qscmf\Core\QsListController
     public function edit($form_id,$id){
         if (IS_POST){
             $data=I('post.');
+
+            $data['options'] = I('post.options', '');
+            $data['tips'] = I('post.tips', '');
+            $data['placeholder'] = I('post.placeholder', '');
+            $data['required'] = I('post.required', '');
+            $data['min_limit'] = I('post.min_limit', '');
+
             $id=I('get.id');
             $formItem=D('FormItem')->find($id);
             $data=array_merge($formItem,$data);
@@ -98,6 +105,7 @@ class FormItemController extends \Qscmf\Core\QsListController
             if ($data['type']==FormItemModel::DESCRIPTION){
                 $data['required']=DBCont::NO_BOOL_STATUS;
             }
+
 
             $model = new FormItemModel();
             if ($model->editItem($data)!==false){

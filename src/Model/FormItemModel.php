@@ -210,6 +210,10 @@ class FormItemModel extends GyListModel
             }
         });
 
+        if($res_arr === false){
+            return false;
+        }
+
         if(empty($res_arr)){
             $res_arr = '';
         }
@@ -240,6 +244,10 @@ class FormItemModel extends GyListModel
                 return $data;
             }
         });
+
+        if($res_arr === false){
+            return false;
+        }
 
         if(empty($res_arr)){
             $res_arr = '';
