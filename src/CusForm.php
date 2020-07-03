@@ -59,29 +59,41 @@ class CusForm
      * @param $builder FormBuilder FormBuilder
      * @param int|string $form_id 表单id
      * @param int|string $apply_id 表单提交id
+     * @param null $form_data 表单数据
      * @return FormBuilder
      */
-    public function generateFormItem($builder, $form_id, $apply_id){
+    public function generateFormItem($builder, $form_id, $apply_id, &$form_data = null){
         $items=D('FormItem')->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
+        $info = [];
         foreach ($items as $item) {
-            $content=D('FormApplyContent')->where(['form_apply_id'=>$apply_id,'form_item_id'=>$item['id']])->getField('content');
-            $builder->addFormItem('','self',$item['title'],'',$this->_genStaticHtml($item,$content));
+            $ent =D('FormApplyContent')->where(['form_apply_id'=>$apply_id,'form_item_id'=>$item['id']])->find();
+            $key = 'cusform_' . $ent['id'];
+            if($ent){
+                $info[$key] = $ent['content'];
+            }
+            $this->addFormItem($builder, $item, $key, $ent['content']);
+        }
+        if($form_data){
+            $form_data = array_merge($form_data, $info);
         }
         return $builder;
+    }
+
+    private function addFormItem($builder, $item, $content_id, $content){
+        switch($item['type']){
+            case FormItemModel::PICTURE:
+            case FormItemModel::PICTURES:
+                $builder->addFormItem($content_id, $item['type'], $item['title'], '', [], '', '', [], ['read_only' => true]);
+                break;
+            default:
+                $builder->addFormItem($content_id, 'self', $item['title'], '', $this->_genStaticHtml($item, $content));
+                break;
+        }
     }
 
     private function _genStaticHtml($item,$content){
         $html='<p style="padding-top: 7px;">';
         switch ($item['type']){
-            case FormItemModel::PICTURE:
-            case FormItemModel::PICTURES:
-                $fids=explode(',',$content);
-                $html.='<div><div class="img-box">';
-                foreach ($fids as $fid) {
-                    $html.='<img class="img" style="margin-right:10px;width:200px" src="'.showFileUrl($fid).'">';
-                }
-                $html.='</div></div>';
-                break;
             case FormItemModel::CITY:
                 $html.=getFullAreaByID($content);
                 break;
