@@ -38,9 +38,9 @@ class FormController extends GyListController
             ->addTopButton('addnew')
             ->addTableColumn('title', '表单标题', '', '', false)
             ->addTableColumn('right_button', '操作', 'btn')
-            ->addRightButton('edit')
+            ->addRightButton('self',array('title' => '编辑', 'href' => U('edit', array('id' => '__data_id__')),'class'=>'label label-primary ajax-get confirm','confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->addRightButton('self',array('title' => '编辑表单项', 'href' => U('FormItem/index', array('id' => '__data_id__')), 'class' => 'label label-success'))
-            ->addRightButton('delete')
+            ->addRightButton('delete',array('confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->setTableDataList($data_list)
             ->setTableDataPage($page->show())
             ->display();
@@ -72,6 +72,9 @@ class FormController extends GyListController
     public function edit(){
         $model = new FormModel();
         $id=I('get.id');
+        if(IS_AJAX){
+            $this->success('',U('',['id'=>$id]));
+        }
         if (IS_POST){
             $data=I('post.');
             $data['create_date']=time();
