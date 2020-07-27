@@ -72,9 +72,7 @@ class FormController extends GyListController
     public function edit(){
         $model = new FormModel();
         $id=I('get.id');
-        if(IS_AJAX){
-            $this->success('',U('',['id'=>$id]));
-        }
+
         if (IS_POST){
             $data=I('post.');
             $data['create_date']=time();
@@ -84,6 +82,9 @@ class FormController extends GyListController
                 $this->error('保存失败'.D('Form')->getError(),U('index'));
             }
         }else{
+            if(IS_AJAX){
+                $this->success('',U('',['id'=>$id]));
+            }
             $data=$model->getOne($id);
             $builder=new FormBuilder();
             $builder->setMetaTitle('编辑表单')
