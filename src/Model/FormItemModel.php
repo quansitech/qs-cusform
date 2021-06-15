@@ -107,7 +107,7 @@ class FormItemModel extends GyListModel
             'error_msg'=>'__FIELD__必需__VALUE__个字以上',
             'check'=>'minLimit',
             'tips'=>'仅文本类型有效'
-            ]
+        ]
     ];
 
     public static function minLimit($data,$value){
@@ -219,7 +219,7 @@ class FormItemModel extends GyListModel
         }
 
         if(is_array($res_arr)){
-            return json_encode($res_arr);
+            return json_encode(array_values($res_arr));
         }
         else{
             return $res_arr;
@@ -269,7 +269,7 @@ class FormItemModel extends GyListModel
 
         //统一转出数组内容
         if(is_string($data)){
-            $content_arr = json_decode($data, true);
+            $content_arr = json_decode(htmlspecialchars_decode($data), true);
         }
         else{
             $content_arr = $data;
@@ -278,8 +278,8 @@ class FormItemModel extends GyListModel
         $options = json_decode(htmlspecialchars_decode($options), true);
         //检测内容格式是否正确，且text内容项有没填写
         try{
-            $res = collect($options)->map(function($option, $index) use ($data, $fn){
-                return call_user_func($fn, $option, $data);
+            $res = collect($options)->map(function($option, $index) use ($content_arr, $fn){
+                return call_user_func($fn, $option, $content_arr);
             })->filter()->all();
             return $res;
         }
