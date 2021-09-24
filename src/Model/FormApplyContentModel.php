@@ -90,4 +90,83 @@ class FormApplyContentModel extends GyListModel
             return false;
         }
     }
+
+    public function editContent($form_id,$form_apply_id,$data){
+        $formItemModel=new FormItemModel();
+        $formItems=$formItemModel->where(['form_id'=>$form_id,'deleted'=> \Qscmf\Lib\DBCont::NO_BOOL_STATUS])->order('sort')->select();
+        if (!$formItems){
+            return 0;
+        }
+        if (!$form_apply_id){
+            return $this->saveAll($form_id,$data);
+        }
+        $this->startTrans();
+        try{
+            C('TOKEN_ON',false);
+
+            foreach ($formItems as $formItem) {
+                if (!isset($data['cus_form_'.$formItem['id']])){
+                    $data['cus_form_'.$formItem['id']]='';
+                }
+                if ($formItem['type']==FormItemModel::CHECK_BOX){
+                    if (is_array($data['cus_form_'.$formItem['id']])){
+                        $data['cus_form_'.$formItem['id']]=implode(',',$data['cus_form_'.$formItem['id']]);
+                    }
+                }
+
+                if($formItem['type'] == FormItemModel::CHECKBOX_TEXT){
+                    continue;
+                    $r = $formItemModel->parseCheckboxText($data['cus_form_'.$formItem['id']], $formItem['options']);
+                    if($r === false){
+                        E($formItemModel->getError());
+                    }
+                    $data['cus_form_'.$formItem['id']] = $r;
+                }
+
+                if($formItem['type'] == FormItemModel::RADIO_TEXT){
+                    continue;
+                    $r = $formItemModel->parseRadioText($data['cus_form_'.$formItem['id']], $formItem['options']);
+                    if($r === false){
+                        E($formItemModel->getError());
+                    }
+                    $data['cus_form_'.$formItem['id']] = $r;
+                }
+
+                if ($formItem['required']==DBCont::NO_BOOL_STATUS
+                    || ($formItem['required']==DBCont::YES_BOOL_STATUS
+                        && trim($data['cus_form_'.$formItem['id']]))
+                ){
+                    $r=$formItemModel->checkLimit($data['cus_form_'.$formItem['id']],$formItem,
+                        [FormItemModel::TEXT,FormItemModel::TEXTAREA],'min_limit');
+                    if ($r===false){
+                        E($formItemModel->getError());
+                    }
+                    $map=[
+                        'form_apply_id'=>$form_apply_id,
+                        'form_item_id'=>$formItem['id'],
+                    ];
+
+                    if ($this->where($map)->find()){
+                        if ($this->where($map)->setField('content',$data['cus_form_'.$formItem['id']])===false){
+                            E($this->getError());
+                        }
+                    }else{
+                        $map['content']=$data['cus_form_'.$formItem['id']];
+                        if ($this->createAdd($map)===false){
+                            E($this->getError());
+                        }
+                    }
+
+                }else{
+                    E('缺少'.$formItem['title']);
+                }
+            }
+            $this->commit();
+            return $form_apply_id;
+        }catch (Exception $e){
+            $this->rollback();
+            $this->error=$e->getMessage();
+            return false;
+        }
+    }
 }

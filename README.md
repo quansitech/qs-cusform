@@ -91,6 +91,16 @@ $builder->display();
 {"title": "其他", "text": "社会大学"}
 ```
 
+### 后台编辑自定义表单提交的内容
+```php
+//显示
+\CusForm\CusForm::getInstance()->generateFormItemForEdit($builder, $ent['form_id'], $ent['form_apply_id'], $info)
+    ->display();
+
+//提交
+CusForm::getInstance()->editContent($form_id,$ent['form_apply_id'],$data);
+```
+
 ### 其它说明
 在config.php中加入以下代码可限制自定义表单项的类型，具体对应类型请查看 [FormItemModel.php](https://github.com/quansitech/qs-cusform/blob/master/src/Model/FormItemModel.php) 中的"$selectedOptions"配置
 ```php
