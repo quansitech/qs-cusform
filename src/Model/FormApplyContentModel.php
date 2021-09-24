@@ -115,7 +115,6 @@ class FormApplyContentModel extends GyListModel
                 }
 
                 if($formItem['type'] == FormItemModel::CHECKBOX_TEXT){
-                    continue;
                     $r = $formItemModel->parseCheckboxText($data['cus_form_'.$formItem['id']], $formItem['options']);
                     if($r === false){
                         E($formItemModel->getError());
@@ -124,7 +123,6 @@ class FormApplyContentModel extends GyListModel
                 }
 
                 if($formItem['type'] == FormItemModel::RADIO_TEXT){
-                    continue;
                     $r = $formItemModel->parseRadioText($data['cus_form_'.$formItem['id']], $formItem['options']);
                     if($r === false){
                         E($formItemModel->getError());
@@ -145,7 +143,6 @@ class FormApplyContentModel extends GyListModel
                         'form_apply_id'=>$form_apply_id,
                         'form_item_id'=>$formItem['id'],
                     ];
-
                     if ($this->where($map)->find()){
                         if ($this->where($map)->setField('content',$data['cus_form_'.$formItem['id']])===false){
                             E($this->getError());

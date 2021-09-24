@@ -154,7 +154,7 @@ class CusForm
             if($ent){
                 $info[$key] = $ent['content'];
             }
-            $this->_addFormItemForEdit($builder, $item, $key, $oss);
+            $this->addFormItemForEdit($builder, $item, $key, $oss);
         }
         if($form_data){
             $form_data = array_merge($form_data, $info);
@@ -165,15 +165,15 @@ class CusForm
     /**
      * @param FormBuilder $builder
      * @param $item
-     * @param $key
+     * @param $content_id
      * @param $content
      * @param $oss
      */
-    private function _addFormItemForEdit($builder, $item, $key, $oss){
+    private function addFormItemForEdit($builder, $item, $content_id,$oss){
         switch($item['type']){
             case FormItemModel::CITY:
                 $item['type']='address';
-                $builder->addFormItem($key, $item['type'], $item['title']);
+                $builder->addFormItem($content_id, $item['type'], $item['title']);
                 break;
             case FormItemModel::FILE:
             case FormItemModel::PICTURE:
@@ -181,38 +181,39 @@ class CusForm
                 if ($oss) {
                     $item['type'] .= '_oss';
                 }
-                $builder->addFormItem($key, $item['type'], $item['title']);
+                $builder->addFormItem($content_id, $item['type'], $item['title']);
                 break;
             case FormItemModel::DESCRIPTION:
-                $builder->addFormItem($key, 'static', $item['title'],'','');
+                $builder->addFormItem($content_id, 'static', $item['title'],'','');
             default:
-                $builder->addFormItem($key, $item['type'], $item['title'],'',$this->_genItemOptions($item['options']));
+                $builder->addFormItem($content_id, $item['type'], $item['title'],'',$this->_genItemOptions($item));
                 break;
         }
     }
 
-    private function _genItemOptions($options){
+    private function _genItemOptions($item){
+        $options=$item['options'];
         if (!$options){
             return [];
         }
-        if (is_string($options)){
-            $options=explode(',',$options);
-        }
         $res=[];
-        foreach ($options as $option) {
-            $res[$option]=$option;
+        switch ($item['type']){
+            case FormItemModel::RADIO_TEXT:
+            case FormItemModel::CHECKBOX_TEXT:
+                $res=json_decode(htmlspecialchars_decode($options),true);
+                break;
+            default:
+                if (is_string($options)){
+                    $options=explode(',',$options);
+                }
+                foreach ($options as $option) {
+                    $res[$option]=$option;
+                }
+                break;
         }
         return $res;
     }
 
-    /**
-     * 后台编辑保存自定义表单内容
-     * @param integer $form_id 表单ID
-     * @param integer $form_apply_id 申请id
-     * @param array $data 提交内容
-     * @return bool|int|mixed
-     * @throws \Think\Exception
-     */
     public function editContent($form_id,$form_apply_id,$data){
         $model=new FormApplyContentModel();
         $r = $model->editContent($form_id,$form_apply_id,$data);
