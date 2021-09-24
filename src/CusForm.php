@@ -185,9 +185,6 @@ class CusForm
                 break;
             case FormItemModel::DESCRIPTION:
                 $builder->addFormItem($key, 'static', $item['title'],'','');
-            case FormItemModel::CHECKBOX_TEXT:
-            case FormItemModel::RADIO_TEXT:
-                break;
             default:
                 $builder->addFormItem($key, $item['type'], $item['title'],'',$this->_genItemOptions($item['options']));
                 break;
