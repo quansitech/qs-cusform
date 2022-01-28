@@ -20,7 +20,7 @@ class CusFormProvider implements Provider,LaravelProvider
         RegisterContainer::registerController('admin','Form',FormController::class);
         RegisterContainer::registerController('admin','FormItem',FormItemController::class);
 
-        RegisterContainer::registerSymLink(WWW_DIR . '/Public/cusform', __DIR__ . '/../js/dist');
+        RegisterContainer::registerSymLink(WWW_DIR . '/Public/cusform', __DIR__ . '/../js/formily/antd/build');
 
         RegisterContainer::registerFormItem(FormItemModel::RADIO_TEXT,RadioText::class);
         RegisterContainer::registerFormItem(FormItemModel::CHECKBOX_TEXT,CheckBoxText::class);
