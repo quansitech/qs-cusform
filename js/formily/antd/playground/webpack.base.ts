@@ -32,7 +32,7 @@ export default {
     children: false,
   },
   entry: {
-    designable: path.resolve(__dirname, './main'),
+    qsCusform: path.resolve(__dirname, './main'),
   },
   output: {
     path: path.resolve(__dirname, '../build'),

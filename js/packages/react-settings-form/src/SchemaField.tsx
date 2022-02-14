@@ -39,7 +39,6 @@ import {
   Area
 } from './components'
 
-console.log('input', Input);
 export const SchemaField = createSchemaField({
   components: {
     FormItem,

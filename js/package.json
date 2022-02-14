@@ -7,7 +7,8 @@
   "workspaces": [
     "packages/*",
     "formily/*",
-    "examples/*"
+    "examples/*",
+    "formilySrc/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
@@ -144,10 +145,6 @@
     "url": "git+https://github.com/alibaba/designable.git"
   },
   "config": {
-    "ghooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "node ./scripts/validate-commit-msg.js"
-    },
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }

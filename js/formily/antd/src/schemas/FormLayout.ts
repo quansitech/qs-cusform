@@ -1,8 +1,8 @@
 import { ISchema } from '@formily/react'
 
 export const FormLayout: ISchema = {
-  // type: 'object',
-  // properties: {
+  type: 'object',
+  properties: {
   //   labelCol: {
   //     type: 'number',
   //     'x-decorator': 'FormItem',
@@ -47,15 +47,15 @@ export const FormLayout: ISchema = {
   //       defaultValue: 'default',
   //     },
   //   },
-  //   layout: {
-  //     type: 'string',
-  //     enum: ['horizontal', 'vertical', 'inline', null],
-  //     'x-decorator': 'FormItem',
-  //     'x-component': 'Select',
-  //     'x-component-props': {
-  //       defaultValue: 'horizontal',
-  //     },
-  //   },
+    formLayout: {
+      type: 'string',
+      enum: ['horizontal', 'vertical'],
+      'x-decorator': 'FormItem',
+      'x-component': 'Select',
+      'x-component-props': {
+        defaultValue: 'horizontal',
+      },
+    },
   //   tooltipLayout: {
   //     type: 'string',
   //     enum: ['icon', 'text', null],
@@ -120,5 +120,5 @@ export const FormLayout: ISchema = {
   //       defaultChecked: true,
   //     },
   //   },
-  // },
+  },
 }

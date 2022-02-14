@@ -24,6 +24,21 @@ class CusForm
         return self::$_instance;
     }
 
+    public function formSchema($form_id){
+        return D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
+    }
+
+    public function submitApply($form_id, object $post_object){
+        $json_schema = D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
+        if(!$json_schema){
+            E("表单不存在");
+        }
+
+
+
+
+    }
+
     /**
      * 前台获取form_item内容
      * @param int|string $form_id 表单id

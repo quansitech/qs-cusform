@@ -35,6 +35,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
     const selected = useSelected(currentWorkspaceId)
     const prefix = usePrefix('settings-form')
     const schema = node?.designerProps?.propsSchema
+
     const isEmpty = !(
       node &&
       node.designerProps?.propsSchema &&
@@ -52,7 +53,7 @@ export const SettingsForm: React.FC<ISettingFormProps> = observer(
       })
     }, [node, node?.props, schema, operation, isEmpty])
 
-    console.log(props);
+
     const render = () => {
       if (!isEmpty) {
         return (

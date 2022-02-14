@@ -28,7 +28,7 @@ FormLayout.Resource = createResource({
       componentName: 'Field',
       props: {
         type: 'void',
-        'x-component': 'FormLayout',
+        'x-component': 'FormLayout'
       },
     },
   ],

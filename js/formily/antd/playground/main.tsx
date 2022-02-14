@@ -65,6 +65,10 @@ import {
   Area
 } from '../src'
 
+import { Config } from '../src/models'
+import { initComponent } from "../src/common/registry"
+import "./app.less"
+
 setNpmCDNRegistry('//unpkg.com')
 
 GlobalRegistry.registerDesignerLocales({
@@ -115,8 +119,8 @@ const App = () => {
     []
   )
   return (
-    <Designer engine={engine}>
-      <StudioPanel actions={<ActionsWidget />}>
+    <Designer engine={engine} position='relative'>
+      <StudioPanel style={{height: '100vh'}} actions={<ActionsWidget />}>
         <CompositePanel>
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
@@ -127,7 +131,8 @@ const App = () => {
                 Radio,
                 Checkbox,
                 DatePicker,
-                Area
+                Area,
+                Upload
               ]}
             />
           </CompositePanel.Item>
@@ -199,4 +204,11 @@ const App = () => {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+window['qsCusform'] = {
+  config: Config,
+  render: (dom) => {
+    initComponent();
+    ReactDOM.render(<App />, dom)
+  }
+}
+

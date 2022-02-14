@@ -2,13 +2,14 @@ import React, { useMemo } from 'react'
 import { createBehavior, createResource } from '@designable/core'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/react'
+import {Form as QsFormilyForm} from "@quansitech/qs-formily"
 import { Form as FormilyForm } from '@formily/antd'
 import { usePrefix, DnFC } from '@designable/react'
 import { AllSchemas } from '../../schemas'
 import { AllLocales } from '../../locales'
 import './styles.less'
 
-export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
+export const Form: DnFC<React.ComponentProps<typeof QsFormilyForm>> = observer(
   (props) => {
     const prefix = usePrefix('designable-form')
     const form = useMemo(
@@ -19,14 +20,14 @@ export const Form: DnFC<React.ComponentProps<typeof FormilyForm>> = observer(
       []
     )
     return (
-      <FormilyForm
+      <QsFormilyForm
         {...props}
         style={{ ...props.style }}
         className={prefix}
         form={form}
       >
         {props.children}
-      </FormilyForm>
+      </QsFormilyForm>
     )
   }
 )
@@ -48,8 +49,8 @@ Form.Behavior = createBehavior({
         },
       },
       defaultProps: {
-        labelCol: 6,
-        wrapperCol: 12,
+        formLayout: 'horizontal',
+        labelWrap: true
       },
     }
   },
@@ -64,7 +65,7 @@ Form.Resource = createResource({
       componentName: 'Field',
       props: {
         type: 'object',
-        'x-component': 'Form',
+        'x-component': 'Form'
       },
     },
   ],

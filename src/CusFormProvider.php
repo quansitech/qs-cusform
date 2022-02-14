@@ -5,6 +5,7 @@ namespace CusForm;
 use Bootstrap\LaravelProvider;
 use Bootstrap\Provider;
 use Bootstrap\RegisterContainer;
+use CusForm\Controller\AreaController;
 use CusForm\Controller\FormController;
 use CusForm\Controller\FormItemController;
 use CusForm\FormItem\CheckBoxText\CheckBoxText;
@@ -19,6 +20,7 @@ class CusFormProvider implements Provider,LaravelProvider
     {
         RegisterContainer::registerController('admin','Form',FormController::class);
         RegisterContainer::registerController('admin','FormItem',FormItemController::class);
+        RegisterContainer::registerController('extends','Area',AreaController::class);
 
         RegisterContainer::registerSymLink(WWW_DIR . '/Public/cusform', __DIR__ . '/../js/formily/antd/build');
 

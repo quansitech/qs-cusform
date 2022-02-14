@@ -30,7 +30,7 @@ export const Input: ISchema & { TextArea?: ISchema } = {
         placeholder: {
           type: 'string',
           'x-decorator': 'FormItem',
-          'x-component': 'Input',
+          'x-component': 'Input'
         },
       }
     }

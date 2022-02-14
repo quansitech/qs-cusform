@@ -4,6 +4,7 @@ export const Area = {
     settings: {
       'x-reactions': '跳题设置',
       'x-component-props': {
+        needAddress: '展示地址',
         mode: {
           title: '模式',
           dataSource: ['多选', '标签', '单选'],

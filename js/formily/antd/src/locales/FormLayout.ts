@@ -24,6 +24,7 @@ export const FormLayout = {
         bordered: '是否有边框',
         size: { title: '尺寸', dataSource: ['大', '小', '默认', '继承'] },
         layout: { title: '布局', dataSource: ['水平', '垂直', '内联', '继承'] },
+        formLayout: { title: '布局', dataSource: ['水平', '垂直'] },
         feedbackLayout: {
           title: '反馈布局',
           dataSource: ['宽松', '紧凑', '弹层', '无', '继承'],

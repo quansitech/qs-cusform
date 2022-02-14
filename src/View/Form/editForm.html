@@ -1,0 +1,23 @@
+<extend name="Admin@default/common/dashboard_layout"/>
+<block name="style">
+    <link href="__PUBLIC__/cusform/qsCusform.css" rel="stylesheet"></head>
+</block>
+
+<block name="content">
+    <div id="root"></div>
+</block>
+
+<block name="script">
+    <script src="__PUBLIC__/cusform/moment-with-locales.js"></script>
+    <script src="__PUBLIC__/cusform/react.development.js"></script>
+    <script src="__PUBLIC__/cusform/react-dom.development.js"></script>
+    <script src="__PUBLIC__/cusform/antd-with-locales.min.js"></script>
+    <script src="__PUBLIC__/cusform/qsCusform.bundle.js"></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            window.qsCusform.config.setJsOptions({$jsOptions});
+            window.qsCusform.config.setFormId({:I('get.id')});
+            window.qsCusform.render(document.getElementById('root'));
+        }
+    </script>
+</block>

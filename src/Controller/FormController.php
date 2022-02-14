@@ -5,6 +5,7 @@ namespace CusForm\Controller;
 
 
 use CusForm\CusForm;
+use CusForm\Helper;
 use CusForm\Model\FormModel;
 use Gy_Library\GyListController;
 use Qscmf\Builder\FormBuilder;
@@ -39,7 +40,7 @@ class FormController extends GyListController
             ->addTableColumn('title', '表单标题', '', '', false)
             ->addTableColumn('right_button', '操作', 'btn')
             ->addRightButton('self',array('title' => '编辑', 'href' => U('edit', array('id' => '__data_id__')),'class'=>'label label-primary ajax-get confirm','confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
-            ->addRightButton('self',array('title' => '编辑表单项', 'href' => U('FormItem/index', array('id' => '__data_id__')), 'class' => 'label label-success'))
+            ->addRightButton('self',array('title' => '编辑表单项', 'href' => U('editForm', array('id' => '__data_id__')), 'class' => 'label label-success'))
             ->addRightButton('delete',array('confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->setTableDataList($data_list)
             ->setTableDataPage($page->show())
@@ -100,6 +101,33 @@ class FormController extends GyListController
             $builder->display();
         }
     }
+
+    public function editForm(){
+        $jsOptions = packageConfig('cusform','jsOptions') ?: [];
+        $this->assign('jsOptions', json_encode($jsOptions, JSON_PRETTY_PRINT));
+        $this->display(__DIR__ . '/../View/Form/editForm.html');
+    }
+
+    public function getFormSchema($id){
+        $ent = D("Form")->where(['id' => $id])->find();
+        Helper::returnJson($ent['json_schema']);
+    }
+
+    public function saveFormSchema($id){
+        $data = Helper::iJson();
+        $ent = D("Form")->where(['id' => $id])->find();
+        if($ent){
+            $ent['json_schema'] = json_encode($data);
+            $r = D("Form")->save($ent);
+            if($r !== false){
+                $this->ajaxReturn(['status' => 1]);
+            }
+        }
+
+        $this->ajaxReturn(['status' => 0]);
+
+    }
+
     public function delete(){
         $ids = I('ids');
         $model = new FormModel();

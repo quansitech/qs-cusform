@@ -18,6 +18,7 @@ const createPages = (pages) => {
 export default {
   ...baseConfig,
   mode: 'production',
+  devtool: '',
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -27,7 +28,7 @@ export default {
       {
         filename: 'index.html',
         template: path.resolve(__dirname, './template.ejs'),
-        chunk: ['designable'],
+        chunk: ['qsCusform'],
       },
     ]),
     new MonacoPlugin({

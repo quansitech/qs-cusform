@@ -39,7 +39,7 @@ export default {
       {
         filename: 'index.html',
         template: path.resolve(__dirname, './template.ejs'),
-        chunk: ['designable'],
+        chunk: ['qsCusform'],
       },
     ]),
     new webpack.HotModuleReplacementPlugin(),

@@ -5,6 +5,7 @@ import { useDesigner, TextWidget } from '@designable/react'
 import { GlobalRegistry } from '@designable/core'
 import { observer } from '@formily/react'
 import { loadInitialSchema, saveSchema } from '../service'
+import { Config } from '../../src/models'
 
 export const ActionsWidget = observer(() => {
   const designer = useDesigner()
