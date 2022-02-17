@@ -1,13 +1,10 @@
 <?php
-
-
 namespace CusForm;
 
-
-use CusForm\Model\FormApplyContentModel;
-use CusForm\Model\FormItemModel;
-use Qscmf\Builder\FormBuilder;
+use CusForm\Schema\Components\ComponentFactory;
 use Qscmf\Lib\DBCont;
+use stdClass;
+use Think\Exception;
 
 class CusForm
 {
@@ -17,224 +14,97 @@ class CusForm
     {
     }
 
-    public static function getInstance(){
+    public static function getInstance() : CusForm{
         if (!self::$_instance){
             self::$_instance=new CusForm();
         }
         return self::$_instance;
     }
 
-    public function formSchema($form_id){
+    public function formSchema(int $form_id): ?string{
         return D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
     }
 
-    public function submitApply($form_id, object $post_object){
-        $json_schema = D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
-        if(!$json_schema){
-            E("表单不存在");
+    public function getApplySchema(int $apply_id, string $mode = 'edit') : stdClass{
+        $ent = D("FormApply")->where(['id' => $apply_id])->find();
+        $form_id = $ent['form_id'];
+        $json_content = $ent['json_content'];
+        if(!$json_content){
+            throw new Exception("找不到填写的表单内容");
         }
 
+        $json_schema = $this->formSchema($form_id);
+        if (!$json_schema) {
+            throw new Exception("表单不存在");
+        }
 
+        $schema = json_decode($json_schema);
 
-
-    }
-
-    /**
-     * 前台获取form_item内容
-     * @param int|string $form_id 表单id
-     * @param int|string $apply_id 表单提交id
-     * @return array
-     */
-    public function getItemData($form_id,$apply_id=''){
-        $res=[];
-        $formItemModel=new FormItemModel();
-        $formApplyContentModel=new FormApplyContentModel();
-        $formItems=$formItemModel->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
-        foreach ($formItems as $formItem) {
-            $re=$formItem;
-            unset($re['id']);
-            unset($re['create_date']);
-            unset($re['sort']);
-            unset($re['form_id']);
-            $re['name']='cus_form_'.$formItem['id'];
-            if ($apply_id){
-                $map=[
-                    'form_apply_id'=>$apply_id,
-                    'form_item_id'=>$formItem['id']
-                ];
-                $re['value']=$formApplyContentModel->where($map)->getField('content');
+        $content = json_decode($json_content);
+        foreach($content as $sign => $value){
+            if(isset($schema->schema->properties->$sign)){
+                $schema->schema->properties->$sign->default = $value;
             }
-            $res[]=$re;
-        }
-        return $res;
-    }
 
-    /**
-     * 后台显示用户所填写的内容
-     * @param $builder FormBuilder FormBuilder
-     * @param int|string $form_id 表单id
-     * @param int|string $apply_id 表单提交id
-     * @param null $form_data 表单数据
-     * @return FormBuilder
-     */
-    public function generateFormItem($builder, $form_id, $apply_id, &$form_data = null){
-        $items=D('FormItem')->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
-        $info = [];
-        foreach ($items as $item) {
-            $ent =D('FormApplyContent')->where(['form_apply_id'=>$apply_id,'form_item_id'=>$item['id']])->find();
-            $key = 'cusform_' . $ent['id'];
-            if($ent){
-                $info[$key] = $ent['content'];
+            if($mode === 'readonly'){
+                Helper::wrapComponentIllegalProp($schema->schema->properties->$sign, 'x-pattern', 'disabled');
             }
-            $this->addFormItem($builder, $item, $key, $ent['content']);
         }
-        if($form_data){
-            $form_data = array_merge($form_data, $info);
-        }
-        return $builder;
+
+        return $schema;
     }
 
-    private function addFormItem($builder, $item, $content_id, $content){
-        switch($item['type']){
-            case FormItemModel::PICTURE:
-            case FormItemModel::PICTURES:
-                $builder->addFormItem($content_id, $item['type'], $item['title'], '', [], '', '', [], ['read_only' => true]);
-                break;
-            default:
-                $builder->addFormItem($content_id, 'self', $item['title'], '', $this->_genStaticHtml($item, $content));
-                break;
+    public function submitApply(int $form_id, stdClass $post_object) : array
+    {
+        $json_schema = $this->formSchema($form_id);
+        if (!$json_schema) {
+            throw new Exception("表单不存在");
         }
+
+        $object_schema = json_decode($json_schema);
+        $new_post_object = $this->filter($object_schema, $post_object);
+        list($r, $errMsg) = $this->validate($object_schema, $new_post_object);
+        if ($r === false) {
+            return [false, $errMsg];
+        }
+
+        $add_data['form_id'] = $form_id;
+        $add_data['create_date'] = time();
+        $add_data['json_content'] = json_encode($new_post_object);
+        $r = D("FormApply")->add($add_data);
+        if ($r === false) {
+            return [false, D("FormApply")->getError()];
+        }
+        return [true, ''];
     }
 
-    private function _genStaticHtml($item,$content){
-        $html='<p style="padding-top: 7px;">';
-        switch ($item['type']){
-            case FormItemModel::CITY:
-                $html.=getFullAreaByID($content);
-                break;
-            case FormItemModel::FILE:
-                $title=D('FilePic')->where(['id'=>$content])->getField('title');
-                $html.='<a download href="'.showFileUrl($content).'">'.$title.'</a>';
-                break;
-            case FormItemModel::RADIO_TEXT:
-            case FormItemModel::CHECKBOX_TEXT:
-                $arr = json_decode(htmlspecialchars_decode($content), true);
-                if(isset($arr['title'])){
-                    $arr = [ $arr ];
-                }
-                collect($arr)->each(function($item) use (&$html){
-                    $html .= "<p>{$item['title']}";
-                    if(isset($item['text'])){
-                        $html .= " | {$item['text']}";
-                    }
-                    $html .= "</p>";
-                });
-                break;
-            case FormItemModel::TEXTAREA:
-                $html .= '<textarea class="form-control textarea" rows="5" name="message" readonly>'.$content.'</textarea>';
-                break;
-            default:
-                $html.=$content;
-                break;
-        }
-        $html.='</p>';
-        return $html;
-    }
-
-    public function saveContent($form_id,$data){
-        $model=new FormApplyContentModel();
-        $r = $model->saveAll($form_id,$data);
-        if ($r===false){
-            E($model->getError());
-        }
-        return $r;
-    }
-
-
-    /**
-     * 后台编辑用户所填写的内容
-     * @param $builder FormBuilder FormBuilder
-     * @param int|string $form_id 表单id
-     * @param int|string $apply_id 表单提交id
-     * @param null $form_data 表单数据
-     * @param bool $oss 上传文件是否用oss
-     * @return FormBuilder
-     */
-    public function generateFormItemForEdit($builder, $form_id, $apply_id, &$form_data = null,$oss=false){
-        $items=D('FormItem')->where(['form_id'=>$form_id,'deleted'=>DBCont::NO_BOOL_STATUS])->order('sort asc')->select();
-        $info = [];
-        foreach ($items as $item) {
-            $ent =D('FormApplyContent')->where(['form_apply_id'=>$apply_id,'form_item_id'=>$item['id']])->find();
-            $key = 'cus_form_' . $item['id'];
-            if($ent){
-                $info[$key] = $ent['content'];
+    protected function filter(object $json_schema, stdClass $post_object) : stdClass{
+        $new = new stdClass();
+        foreach($post_object as $key => $value){
+            if(isset($json_schema->schema->properties->$key)){
+                $new->$key = $value;
             }
-            $this->addFormItemForEdit($builder, $item, $key, $oss);
         }
-        if($form_data){
-            $form_data = array_merge($form_data, $info);
-        }
-        return $builder;
+        return $new;
     }
 
-    /**
-     * @param FormBuilder $builder
-     * @param $item
-     * @param $content_id
-     * @param $content
-     * @param $oss
+    /*
+     * return [flag, errMsg] flag = true 通过验证， false表示不通过， errMsg出错原因
      */
-    private function addFormItemForEdit($builder, $item, $content_id,$oss){
-        switch($item['type']){
-            case FormItemModel::CITY:
-                $item['type']='address';
-                $builder->addFormItem($content_id, $item['type'], $item['title']);
-                break;
-            case FormItemModel::FILE:
-            case FormItemModel::PICTURE:
-            case FormItemModel::PICTURES:
-                if ($oss) {
-                    $item['type'] .= '_oss';
+    protected function validate(stdClass $json_schema, stdClass $post_object) : array{
+        foreach($json_schema->schema->properties as $sign => $property){
+            $component = ComponentFactory::make($sign, $property);
+            if(isset($post_object->$sign)){
+                $component->value($post_object->$sign);
+                list($r, $errMsg) = $component->validate();
+
+                if($r === false){
+                    return [$r, $errMsg];
                 }
-                $builder->addFormItem($content_id, $item['type'], $item['title']);
-                break;
-            case FormItemModel::DESCRIPTION:
-                $builder->addFormItem($content_id, 'static', $item['title'],'','');
-            default:
-                $builder->addFormItem($content_id, $item['type'], $item['title'],'',$this->_genItemOptions($item));
-                break;
+            }
         }
+
+        return [true, ''];
     }
 
-    private function _genItemOptions($item){
-        $options=$item['options'];
-        if (!$options){
-            return [];
-        }
-        $res=[];
-        switch ($item['type']){
-            case FormItemModel::RADIO_TEXT:
-            case FormItemModel::CHECKBOX_TEXT:
-                $res=json_decode(htmlspecialchars_decode($options),true);
-                break;
-            default:
-                if (is_string($options)){
-                    $options=explode(',',$options);
-                }
-                foreach ($options as $option) {
-                    $res[$option]=$option;
-                }
-                break;
-        }
-        return $res;
-    }
-
-    public function editContent($form_id,$form_apply_id,$data){
-        $model=new FormApplyContentModel();
-        $r = $model->editContent($form_id,$form_apply_id,$data);
-        if ($r===false){
-            E($model->getError());
-        }
-        return $r;
-    }
 }

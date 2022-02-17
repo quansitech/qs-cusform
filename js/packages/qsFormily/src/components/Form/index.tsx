@@ -11,7 +11,8 @@ const mapProps = {
   vertical: {
     layout: 'vertical',
     labelCol: 24,
-    wrapperCol: 24
+    wrapperCol: 24,
+    colon: false
   },
   horizontal:{
     layout: 'horizontal',

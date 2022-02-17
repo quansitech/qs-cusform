@@ -33,7 +33,7 @@ Area.init = () => {
           'x-component': 'Area',
           'x-component-props': {
             needAddress: true,
-            url: Config.area?.url || '/extends/area/getAreaById'
+            url: Config.area?.url || Config.urlPrefix + '/extends/area/getAreaById'
           }
         },
       },

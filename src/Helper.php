@@ -19,4 +19,8 @@ class Helper{
     static public function wrapComponentIllegalProp(&$object, $prop, $value){
         $object->$prop = $value;
     }
+
+    static public function getComponentIllegalProp($object, $prop){
+        return $object->$prop;
+    }
 }

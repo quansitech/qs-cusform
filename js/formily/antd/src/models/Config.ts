@@ -9,11 +9,18 @@ export interface IAreaDefaultProps{
   url?: string
 }
 
+export interface IUploadDefaultProps{
+  oss?: boolean,
+  action?: string
+}
+
 class ConfigModal{
 
   area: IAreaDefaultProps
   urlPrefix: string
   formId: Number
+  upload: IUploadDefaultProps
+
 
   constructor() {
     define(this, {
@@ -39,6 +46,10 @@ class ConfigModal{
 
   setFormId(id: Number){
     this.formId = id;
+  }
+
+  setUpload(props: IUploadDefaultProps){
+    this.upload = props
   }
 }
 

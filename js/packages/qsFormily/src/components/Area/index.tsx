@@ -3,8 +3,6 @@ import React from "react";
 import {
   isEmpty
 } from '@formily/shared'
-import { isFn } from "@designable/shared"
-import './index.less';
 
 const TextArea = Input.TextArea;
 
@@ -13,23 +11,23 @@ export const Area = (props) => {
     placeholder,
     allowClear,
     needAddress,
-    url
+    url,
+    value,
+    disabled
   } = props;
 
+  console.log(props);
+
   const level = 3;
-  const defaultValue = {
-    value: '',
-    address: ''
-  };
   const onChange = props.onChange;
 
   const [options, setOptions] = React.useState([]);
   const [innerValue, setInnerValue] = React.useState([]);
-  const [innerAddress, setInnerAddress] = React.useState(defaultValue.address);
+  const [innerAddress, setInnerAddress] = React.useState(value.address);
 
   React.useEffect(() => {
     const init = async () => {
-      const innerUrl = defaultValue.value ? `${url}?value=${defaultValue.value}&limit_level=${level}` : url;
+      const innerUrl = value.value ? `${url}?value=${value.value}&limit_level=${level}` : url;
       const res = await fetch(innerUrl);
       const data = await res.json();
       setOptions(data.list);
@@ -94,11 +92,15 @@ export const Area = (props) => {
   }
 
   return <>
-    <Cascader allowClear={allowClear || false} value={innerValue} options={options} onChange={handleCascaderChange} loadData={loadData} changeOnSelect  placeholder={placeholder} />
-    {needAddress && <TextArea className='customform-area-textarea' value={innerAddress} onChange={handleAddressChange} allowClear={allowClear} />}
+    <Cascader disabled={disabled} allowClear={allowClear || false} value={innerValue} options={options} onChange={handleCascaderChange} loadData={loadData} changeOnSelect  placeholder={placeholder} />
+    {needAddress && <TextArea disabled={disabled} className='customform-area-textarea' value={innerAddress} onChange={handleAddressChange} allowClear={allowClear} />}
   </>
 }
 
 Area.defaultProps = {
-  url: '/extends/area/getAreaById'
+  url: '/extends/area/getAreaById',
+  value: {
+    value: '',
+    address: ''
+  }
 }

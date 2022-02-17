@@ -52,5 +52,19 @@ export default {
     host: '127.0.0.1',
     open: true,
     port: PORT,
+    proxy: {
+      '/extends': {
+        target: 'http://qscmf.test',
+        changeOrigin: true
+      },
+      '/api': {
+        target: 'http://qscmf.test',
+        changeOrigin: true
+      },
+      '/admin': {
+        target: 'http://qscmf.test',
+        changeOrigin: true
+      },
+    }
   },
 }
