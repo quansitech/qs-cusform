@@ -52,6 +52,7 @@ class FormController extends GyListController
         if (IS_POST){
             $data=I('post.');
             $data['create_date']=time();
+            $data['json_schema'] = '';
             if ($model->createAdd($data)!==false){
                 $this->success('新增成功',U('index'));
             }else{
