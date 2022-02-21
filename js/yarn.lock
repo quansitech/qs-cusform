@@ -3176,6 +3176,18 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
+"@quansitech/qs-formily@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@quansitech/qs-formily/-/qs-formily-1.0.1.tgz#0ec5b41cd9385d691a43aec116ef866c65f72191"
+  integrity sha512-yzcoCHNEkknVIgyQgkTdvhXpqOUHoexE4OslFH9rlmAsjHF1Tkzy44ftJtywZsTUpmE1dmWBr+6vYITJPd2LXQ==
+  dependencies:
+    "@designable/shared" "1.0.0-beta.43"
+    "@formily/antd" "^2.0.2"
+    "@formily/react" "^2.0.2"
+    "@formily/shared" "^2.0.2"
+    antd "^4.0.0"
+    react "^17.0.2"
+
 "@rollup/plugin-commonjs@^17.0.0":
   version "17.1.0"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-17.1.0.tgz#757ec88737dffa8aa913eb392fade2e45aef2a2d"
@@ -17661,7 +17673,7 @@ react@16.x, react@^16.8.x:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-react@^17.0.1:
+react@^17.0.1, react@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
   integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==

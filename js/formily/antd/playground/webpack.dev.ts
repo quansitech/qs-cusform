@@ -54,15 +54,15 @@ export default {
     port: PORT,
     proxy: {
       '/extends': {
-        target: 'http://qscmf.test',
+        target: 'http://qscmf.tunnel.t4tstudio.com',
         changeOrigin: true
       },
       '/api': {
-        target: 'http://qscmf.test',
+        target: 'http://qscmf.tunnel.t4tstudio.com',
         changeOrigin: true
       },
       '/admin': {
-        target: 'http://qscmf.test',
+        target: 'http://qscmf.tunnel.t4tstudio.com',
         changeOrigin: true
       },
     }

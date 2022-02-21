@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload as FormilyUpload, UploadProps as FormilyUploadProps } from '@quansitech/qsFormily'
+import { Upload as FormilyUpload, UploadProps as FormilyUploadProps } from '@quansitech/qs-formily'
 import { createBehavior, createResource } from '@designable/core'
 import { DnFC } from '@designable/react'
 import { createFieldSchema } from '../Field'
@@ -25,7 +25,7 @@ Upload.init = () => {
   )
 
   const oss = Config.upload?.oss || false;
-  const ossDefaultUrl = Config.urlPrefix + '/extends/aliyunOss/policyGet';
+  const ossDefaultUrl = Config.urlPrefix + '/extends/aliyunOss/policyGet/type/file';
   const uploadDefaultUrl = Config.urlPrefix + '/api/upload/uploadFile';
   const action = Config.upload?.action || oss ? ossDefaultUrl : uploadDefaultUrl;
 

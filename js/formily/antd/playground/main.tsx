@@ -31,7 +31,8 @@ import {
 import {
   ActionsWidget,
   PreviewWidget,
-  SchemaEditorWidget
+  SchemaEditorWidget,
+  FormilyWidget,
 } from './widgets'
 import { saveSchema } from './service'
 import {
@@ -209,6 +210,9 @@ window['qsCusform'] = {
   render: (dom) => {
     initComponent();
     ReactDOM.render(<App />, dom)
+  },
+  renderApply: (dom, options) => {
+    ReactDOM.render(<FormilyWidget {...options} />, dom)
   }
 }
 

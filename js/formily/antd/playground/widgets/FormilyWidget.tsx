@@ -20,7 +20,6 @@ import {
   TimePicker,
   Transfer,
   TreeSelect,
-  Upload,
   FormGrid,
   FormLayout,
   FormTab,
@@ -28,19 +27,10 @@ import {
   ArrayTable,
   ArrayCards,
 } from '@formily/antd'
-import { Card, Slider, Rate } from 'antd'
-import { TreeNode } from '@designable/core'
-import { transformToSchema } from '@designable/formily-transformer'
-import {Form, Area} from "@quansitech/qs-formily"
+import {Card, Slider, Rate, message} from 'antd'
+import {Form, Area, Upload} from "@quansitech/qs-formily"
 
-const Text: React.FC<{
-  value?: string
-  content?: string
-  mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-}> = ({ value, mode, content, ...props }) => {
-  const tagName = mode === 'normal' || !mode ? 'div' : mode
-  return React.createElement(tagName, props, value || content)
-}
+const form = createForm()
 
 const SchemaField = createSchemaField({
   components: {
@@ -57,7 +47,6 @@ const SchemaField = createSchemaField({
     Cascader,
     Editable,
     Input,
-    Text,
     NumberPicker,
     Switch,
     Password,
@@ -77,18 +66,51 @@ const SchemaField = createSchemaField({
   },
 })
 
-export interface IPreviewWidgetProps {
-  tree: TreeNode
+export interface IJsonSchema{
+  formProps: Object,
+  schema: Object
 }
 
-export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
-  const form = useMemo(() => createForm(), [])
+export interface IFormilyWidgetProps{
+  jsonSchema: IJsonSchema,
+  mode: 'readonly' | 'edit',
+  postUrl: string,
+  applyId: Number,
+}
 
-  const { form: formProps, schema } = transformToSchema(props.tree)
+export const FormilyWidget: React.FC<IFormilyWidgetProps> = (props) => {
+  const {
+    jsonSchema,
+    mode,
+    postUrl,
+    applyId,
+  } = props;
+
+  const handleSubmit = async (data) => {
+    data.apply_id = applyId;
+    const res = await fetch(postUrl, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+    );
+
+    const resData = await res.json();
+    if(resData.status === 1){
+      message.success('保存成功');
+    }
+    else{
+      message.error(resData.info);
+    }
+  }
 
   return (
-    <Form {...formProps} form={form}>
-      <SchemaField schema={schema} />
+    <Form form={form} {...jsonSchema.form} onAutoSubmit={handleSubmit}>
+      <SchemaField schema={jsonSchema.schema} />
+      {mode === 'edit' && <Submit block size="large">提交</Submit>}
     </Form>
   )
 }

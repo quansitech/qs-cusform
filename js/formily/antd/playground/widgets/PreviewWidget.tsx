@@ -20,7 +20,6 @@ import {
   TimePicker,
   Transfer,
   TreeSelect,
-  Upload,
   FormGrid,
   FormLayout,
   FormTab,
@@ -31,7 +30,7 @@ import {
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
-import {Form, Area} from "@quansitech/qs-formily"
+import {Form, Area, Upload} from "@quansitech/qs-formily"
 
 const Text: React.FC<{
   value?: string

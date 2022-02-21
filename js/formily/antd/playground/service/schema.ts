@@ -36,7 +36,7 @@ export const saveSchema = async (designer: Engine) => {
     message.success('保存成功');
   }
   else{
-    message.success('保存出错');
+    message.error('保存出错');
   }
 }
 

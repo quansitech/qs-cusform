@@ -2,6 +2,7 @@ import { observable, define, action } from '@formily/reactive'
 
 export interface IConfigProps{
   area?: IAreaDefaultProps,
+  upload?: IUploadDefaultProps,
   urlPrefix?: string
 }
 
@@ -38,6 +39,7 @@ class ConfigModal{
   setJsOptions(props: IConfigProps){
     this.urlPrefix = props.urlPrefix;
     this.setArea(props.area);
+    this.setUpload(props.upload);
   }
 
   setArea(props: IAreaDefaultProps){

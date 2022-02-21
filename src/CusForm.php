@@ -25,7 +25,8 @@ class CusForm
         return D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
     }
 
-    public function getApplySchema(int $apply_id, string $mode = 'edit') : stdClass{
+    public function getApplySchema(int $apply_id, string $mode = 'edit') : stdClass
+    {
         $ent = D("FormApply")->where(['id' => $apply_id])->find();
         $form_id = $ent['form_id'];
         $json_content = $ent['json_content'];
@@ -52,6 +53,33 @@ class CusForm
         }
 
         return $schema;
+    }
+
+    public function editApply(int $apply_id, stdClass $post_object) : array
+    {
+        $ent = D("FormApply")->where(['id' => $apply_id])->find();
+        if(!$ent){
+            throw new Exception("找不到填写的表单内容");
+        }
+
+        $json_schema = $this->formSchema($ent['form_id']);
+        if (!$json_schema) {
+            throw new Exception("表单不存在");
+        }
+
+        $schema = json_decode($json_schema);
+        $new_post_object = $this->filter($schema, $post_object);
+        list($r, $errMsg) = $this->validate($schema, $new_post_object);
+        if ($r === false) {
+            return [false, $errMsg];
+        }
+
+        $ent['json_content'] = json_encode($new_post_object);
+        $r = D("FormApply")->save($ent);
+        if ($r === false) {
+            return [false, D("FormApply")->getError()];
+        }
+        return [true, ''];
     }
 
     public function submitApply(int $form_id, stdClass $post_object) : array
