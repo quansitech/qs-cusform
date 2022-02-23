@@ -52,7 +52,7 @@ abstract class BaseComponent{
         return $this;
     }
 
-    public function description($description): BaseComponent{
+    public function description(string $description): BaseComponent{
         $this->description = $description;
         return $this;
     }

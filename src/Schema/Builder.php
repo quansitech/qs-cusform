@@ -3,13 +3,14 @@ namespace CusForm\Schema;
 
 use CusForm\Helper;
 use CusForm\Schema\Components\BaseComponent;
+use stdClass;
 
 class Builder{
     protected $json_schema;
     protected $before_components = [];
     protected $after_components = [];
 
-    public function __construct(Object $json_schema){
+    public function __construct(stdClass $json_schema){
         $this->json_schema = $json_schema;
     }
 
@@ -59,7 +60,7 @@ class Builder{
         $this->json_schema->schema->properties = (object)$all;
     }
 
-    public function build(){
+    public function build() : stdClass{
         $this->mergeAndReindex();
         return $this->json_schema;
     }

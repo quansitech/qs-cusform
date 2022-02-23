@@ -21,9 +21,11 @@ class ConfigModal{
   urlPrefix: string
   formId: Number
   upload: IUploadDefaultProps
+  pathPrefix: string
 
 
   constructor() {
+    this.pathPrefix = '/Public/cusform';
     define(this, {
       area: observable.ref,
       urlPrefix: observable.ref,

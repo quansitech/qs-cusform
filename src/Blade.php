@@ -23,7 +23,7 @@ class Blade{
 
     protected function prepareCachePath() : void{
         if(!$this->filesystem->exists($this->cache_path)){
-            $this->filesystem->makeDirectory($this->catch_path);
+            $this->filesystem->makeDirectory($this->cache_path);
         }
     }
 

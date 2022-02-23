@@ -55,6 +55,36 @@ class CusForm
         return $schema;
     }
 
+    public function getApplyRecord(int $apply_id) : array
+    {
+        $ent = D("FormApply")->where(['id' => $apply_id])->find();
+        $form_id = $ent['form_id'];
+        $json_content = $ent['json_content'];
+        if(!$json_content){
+            throw new Exception("找不到填写的表单内容");
+        }
+
+        $json_schema = $this->formSchema($form_id);
+        if (!$json_schema) {
+            throw new Exception("表单不存在");
+        }
+
+        $schema = json_decode($json_schema);
+
+        $content = json_decode($json_content);
+        $res = [];
+        foreach($schema->schema->properties as $sign => $property){
+            $object = new stdClass();
+            $object->component_type = Helper::getComponentIllegalProp($property, 'x-component');
+            $object->title = $property->title;
+            $object->value = $content->$sign ?? null;
+            array_push($res, $object);
+        }
+
+        return $res;
+    }
+
+
     public function editApply(int $apply_id, stdClass $post_object) : array
     {
         $ent = D("FormApply")->where(['id' => $apply_id])->find();
@@ -82,6 +112,8 @@ class CusForm
         return [true, ''];
     }
 
+
+
     public function submitApply(int $form_id, stdClass $post_object) : array
     {
         $json_schema = $this->formSchema($form_id);
@@ -103,7 +135,7 @@ class CusForm
         if ($r === false) {
             return [false, D("FormApply")->getError()];
         }
-        return [true, ''];
+        return [$r, ''];
     }
 
     protected function filter(object $json_schema, stdClass $post_object) : stdClass{

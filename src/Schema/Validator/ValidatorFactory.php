@@ -7,6 +7,7 @@ use Think\Exception;
 class ValidatorFactory{
 
     static public function make(string $validator, BaseComponent $component) : BaseValidator{
+        $validator = ucfirst($validator);
         if(!class_exists("\CusForm\Schema\Validator\\{$validator}")){
             throw new Exception("\CusForm\Schema\Validator\\{$validator} 不存在");
         }

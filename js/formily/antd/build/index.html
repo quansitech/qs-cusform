@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+  <title>
+    Designable Playground
+  </title>
+  <style>
+    html,body{
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
+<link href="qsCusform.css" rel="stylesheet"></head>
+<body>
+  <div id="root">
+  </div>
+  <script src="https://unpkg.com/moment/min/moment-with-locales.js"></script>
+  <script src="https://unpkg.com/react/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/antd/dist/antd-with-locales.min.js"></script>
+  <script type="text/javascript">
+      window.onload = function(){
+          window.qsCusform.config.setJsOptions({
+            urlPrefix: '',
+            upload: {
+              oss: true
+            }
+          });
+          window.qsCusform.config.setFormId(1);
+          window.qsCusform.render(document.getElementById('root'));
+      }
+  </script>
+<script type="text/javascript" src="qsCusform.bundle.js"></script></body>

@@ -1,5 +1,7 @@
 import { parse } from '@babel/parser'
 import { getNpmCDNRegistry } from '../../registry'
+import { Config } from '../../../../../formily/antd/src/models'
+
 interface IPrettierModule {
   default: {
     format(
@@ -20,7 +22,7 @@ export const format = async (language: string, source: string) => {
   cache.prettier =
     cache.prettier ||
     new Function(
-      `return import("${getNpmCDNRegistry()}/prettier@2.x/esm/standalone.mjs")`
+      `return import("${getNpmCDNRegistry()}${Config.pathPrefix}/standalone.mjs")`
     )()
   return cache.prettier.then((module) => {
     if (

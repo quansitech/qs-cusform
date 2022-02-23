@@ -105,13 +105,14 @@ class FormController extends GyListController
 
     public function editForm(){
         $jsOptions = packageConfig('cusform','jsOptions') ?: [];
+        $this->assign('nid',Helper::getNidBy());
         $this->assign('jsOptions', json_encode($jsOptions, JSON_PRETTY_PRINT));
         $this->display(__DIR__ . '/../View/Form/editForm.html');
     }
 
     public function getFormSchema($id){
         $ent = D("Form")->where(['id' => $id])->find();
-        Helper::returnJson($ent['json_schema']);
+        Helper::responseJson($ent['json_schema']);
     }
 
     public function saveFormSchema($id){

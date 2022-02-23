@@ -9,7 +9,7 @@ import { Config } from '../../src/models'
 
 const fetchSchema = async () => {
   const urlPrefix = !!Config.urlPrefix ? Config.urlPrefix : '';
-  const url = urlPrefix + '/api/form/getFormSchema?id=' + Config.formId;
+  const url = urlPrefix + '/admin/form/getFormSchema?id=' + Config.formId;
   const res = await fetch(url);
   const data = await res.json();
   return data;

@@ -11,17 +11,17 @@ class Input extends BaseComponent {
         $this->title = $title;
     }
 
-    public function placeholder($placeholder){
+    public function placeholder(string $placeholder) : Input{
         $this->x_component_props->placeholder = $placeholder;
         return $this;
     }
 
-    public function allowClear($allowClear){
+    public function allowClear(bool $allowClear){
         $this->x_component_props->allowClear = $allowClear;
         return $this;
     }
 
-    public function maxLength($maxLength){
+    public function maxLength(int $maxLength){
         $this->x_component_props->maxLength = $maxLength;
         return $this;
     }

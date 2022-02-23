@@ -13,6 +13,8 @@ class FormilyBuilder{
     protected $json_schema;
     protected $mode;
     protected $post_url;
+    protected $hide_button = false;
+    protected $return_url;
 
     public function __construct(int $apply_id, \stdClass $json_schema){
         $this->apply_id = $apply_id;
@@ -21,12 +23,28 @@ class FormilyBuilder{
         $this->post_url = U('/admin/FormApply/edit', '', false, true);
     }
 
-    public function setMode(string $mode){
+    public function setMode(string $mode) : FormilyBuilder
+    {
         $this->mode = $mode;
+        return $this;
     }
 
-    public function setPostUrl($url){
+    public function setPostUrl(string $url) : FormilyBuilder
+    {
         $this->post_url = $url;
+        return $this;
+    }
+
+    public function hideButton(bool $hide) : FormilyBuilder
+    {
+        $this->hide_button = $hide;
+        return $this;
+    }
+
+    public function setReturnUrl(string $return_url) : FormilyBuilder
+    {
+        $this->return_url = $return_url;
+        return $this;
     }
 
     protected function genOpt(){
@@ -34,7 +52,9 @@ class FormilyBuilder{
             'applyId' => $this->apply_id,
             'jsonSchema' => $this->json_schema,
             'mode' => $this->mode,
-            'postUrl' => $this->post_url
+            'postUrl' => $this->post_url,
+            'hideButton' => $this->hide_button,
+            'returnUrl' => $this->return_url
         ];
         return json_encode($opt, JSON_PRETTY_PRINT);
     }

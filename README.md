@@ -41,6 +41,82 @@ php artisan migrate
 
 
 
+## API说明
+
++ CusForm
+
+  | 方法           | 说明                         | 参数                                                         | 返回值类型                                                   |
+  | -------------- | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | getInstance    | 生成CusForm实例对象          |                                                              |                                                              |
+  | formSchema     | 自定义表单的jsonSchema字符串 | int form_id 表单主键                                         | string                                                       |
+  | getApplySchema | 获取用户提交的表单数据       | int apply_id 用户数据的主键id<br />string mode edit(可编辑)\|readonly (只读) | stdClass json对象类型                                        |
+  | editApply      | 编辑用户提交的表单数据       | int apply_id 用户数据的主键id<br />stdClass post_object 提交字段的json对象 | [flag, error] <br />falg为true或者false<br />false时error保存出错信息 |
+  | submitApply    | 新增用户提交的表单数据       | int form_id 自定义表单主键id<br />stdClass post_object 提交的字段json对象 | [res, error] <br />res 如果是false error保存出错信息<br />否则 res 返回 apply_id |
+
+
+
++ Builder
+
+  | 方法       | 说明                          | 参数                         | 返回值类型       |
+  | ---------- | ----------------------------- | ---------------------------- | ---------------- |
+  | __contruct | 构造函数                      | Object json_schema的json对象 | 无               |
+  | build      | 生成新的json_schema的json对象 |                              | stdClass         |
+  | addBefore  | 在自定义表单前插入字段组件    | BaseComponent 组件对象       | Builder 当前对象 |
+  | addAfter   | 在自定义表单后插入字段组件    | BaseComponent 组件对象       | Builder 当前对象 |
+
+
+
++ BaseComponent 
+
+  | 方法        | 说明                | 参数                                                         | 返回值类型                                                   |
+  | ----------- | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+  | __construct | 构造函数            | string sign  字段标识                                        |                                                              |
+  | value       | 设置组件的值        | string \| stdClass \| array \| number value                  | BaseComponent 当前对象                                       |
+  | type        | 组件值类型          | string type                                                  | BaseComponent 当前对象                                       |
+  | title       | 标题                | string title                                                 | BaseComponent 当前对象                                       |
+  | required    | 必填                | bool required 默认值true                                     | BaseComponent 当前对象                                       |
+  | description | 说明                | string description                                           | BaseComponent 当前对象                                       |
+  | default     | 默认值              | string \| stdClass \| array \| number default                | BaseComponent 当前对象                                       |
+  | validator   | 验证器              | string validator  <br />可选项： email、enum、idcard、integer、number<br />、phone、required、url | BaseComponent 当前对象                                       |
+  | enum        | 数据源              | array enum <br />[[ 'label' => '1分', 'value' => 1],[ 'label' => '2分', 'value' => 2]] | BaseComponent 当前对象                                       |
+  | validate    | 验证                |                                                              | array<br />[true, ''] 验证通过<br />[false, '错误原因'] 验证失败 |
+  | readonly    | 设置成只读          |                                                              | BaseComponent 当前对象                                       |
+  | build       | 创建组件json_schema |                                                              | array<br />[sign, component]<br />sign: 组件标识<br />component: json_schema |
+
+
+
++ Input （BaseComponent实现类）
+
+  | 方法        | 说明       | 参数                                            | 返回值类型     |
+  | ----------- | ---------- | ----------------------------------------------- | -------------- |
+  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |                |
+  | placeholder | 占位符     | string placeholder 占位符                       | Input 当前对象 |
+  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | Input 当前对象 |
+  | maxLength   | 最大长度   | int maxLength                                   | Input 当前对象 |
+
+  
+
++ Radio （BaseComponent实现类）
+
+  | 方法        | 说明     | 参数                                            | 返回值类型 |
+  | ----------- | -------- | ----------------------------------------------- | ---------- |
+  | __construct | 构造函数 | string sign 组件标识<br />string title 组件标题 |            |
+
+  
+
++ Textarea （BaseComponent实现类）
+
+  | 方法        | 说明       | 参数                                            | 返回值类型        |
+  | ----------- | ---------- | ----------------------------------------------- | ----------------- |
+  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |                   |
+  | placeholder | 占位符     | string placeholder 占位符                       | Textarea 当前对象 |
+  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | Textarea 当前对象 |
+  | showCount   | 展示字数   | bool showCount                                  | Textarea 当前对象 |
+
+  
+
+
+
 ## 用例
 
 ### 1. 后台获取用户提交的表单数据

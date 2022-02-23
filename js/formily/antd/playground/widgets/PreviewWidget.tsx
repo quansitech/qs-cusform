@@ -30,16 +30,7 @@ import {
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
-import {Form, Area, Upload} from "@quansitech/qs-formily"
-
-const Text: React.FC<{
-  value?: string
-  content?: string
-  mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-}> = ({ value, mode, content, ...props }) => {
-  const tagName = mode === 'normal' || !mode ? 'div' : mode
-  return React.createElement(tagName, props, value || content)
-}
+import {Form, Area, Upload, Text} from "@quansitech/qs-formily"
 
 const SchemaField = createSchemaField({
   components: {

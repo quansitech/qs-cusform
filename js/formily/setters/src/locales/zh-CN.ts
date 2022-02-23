@@ -5,10 +5,6 @@ const ValidatorFormats = [
   { label: '整数格式', value: 'integer' },
   { label: '身份证格式', value: 'idcard' },
   { label: '手机号格式', value: 'phone' },
-  { label: '货币格式', value: 'money' },
-  { label: '中文格式', value: 'zh' },
-  { label: '日期格式', value: 'date' },
-  { label: '邮编格式', value: 'zip' },
 ]
 
 export default {

@@ -8,7 +8,7 @@ export const setNpmCDNRegistry = (registry: string) => {
   Registry.cdn = registry
   loader.config({
     paths: {
-      vs: `${registry}/monaco-editor@0.30.1/min/vs`,
+      vs: `${registry}/cusform`,
     },
   })
 }

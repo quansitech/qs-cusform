@@ -27,8 +27,8 @@ import {
   ArrayTable,
   ArrayCards,
 } from '@formily/antd'
-import {Card, Slider, Rate, message} from 'antd'
-import {Form, Area, Upload} from "@quansitech/qs-formily"
+import {Card, Slider, Rate, message, Button} from 'antd'
+import {Form, Area, Upload, Text} from "@quansitech/qs-formily"
 
 const form = createForm()
 
@@ -62,7 +62,8 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
-    Area
+    Area,
+    Text
   },
 })
 
@@ -84,6 +85,8 @@ export const FormilyWidget: React.FC<IFormilyWidgetProps> = (props) => {
     mode,
     postUrl,
     applyId,
+    hideButton,
+    returnUrl
   } = props;
 
   const handleSubmit = async (data) => {
@@ -92,7 +95,8 @@ export const FormilyWidget: React.FC<IFormilyWidgetProps> = (props) => {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X_REQUESTED_WITH': 'xmlhttprequest'
         },
         body: JSON.stringify(data)
       }
@@ -107,10 +111,39 @@ export const FormilyWidget: React.FC<IFormilyWidgetProps> = (props) => {
     }
   }
 
+  const handleReturn = () => {
+    if(returnUrl){
+      location.href = returnUrl;
+    }
+    else{
+      window.history.back();
+    }
+  }
+
+  const submitButton = () => {
+    return <>
+      {!hideButton && mode === 'edit' && <Submit>提交</Submit>}
+    </>
+  }
+
+  const returnButton = () => {
+    return <>
+      {!hideButton  && <Button onClick={handleReturn}>返回</Button>}
+    </>
+  }
+
   return (
     <Form form={form} {...jsonSchema.form} onAutoSubmit={handleSubmit}>
       <SchemaField schema={jsonSchema.schema} />
-      {mode === 'edit' && <Submit block size="large">提交</Submit>}
+      <div className="formily-button-group">
+        {submitButton()}
+        {returnButton()}
+      </div>
+
     </Form>
   )
+}
+
+FormilyWidget.defaultProps = {
+  hideButton: false
 }

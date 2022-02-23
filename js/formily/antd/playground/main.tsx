@@ -70,8 +70,6 @@ import { Config } from '../src/models'
 import { initComponent } from "../src/common/registry"
 import "./app.less"
 
-setNpmCDNRegistry('//unpkg.com')
-
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
     sources: {
@@ -208,6 +206,7 @@ const App = () => {
 window['qsCusform'] = {
   config: Config,
   render: (dom) => {
+    setNpmCDNRegistry(Config.urlPrefix)
     initComponent();
     ReactDOM.render(<App />, dom)
   },

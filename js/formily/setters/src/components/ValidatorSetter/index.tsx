@@ -162,11 +162,6 @@ export const ValidatorSetter: React.FC<IValidatorSetterProps> = observer(
             )}
           />
         </FoldItem.Base>
-        {/*<FoldItem.Extra>*/}
-        {/*  <SchemaContext.Provider value={new Schema(ValidatorSchema)}>*/}
-        {/*    <ArrayItems />*/}
-        {/*  </SchemaContext.Provider>*/}
-        {/*</FoldItem.Extra>*/}
       </FoldItem>
     )
   }

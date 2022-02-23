@@ -10,7 +10,6 @@ use CusForm\Controller\FormApplyController;
 use CusForm\Controller\FormController;
 use CusForm\FormItem\CheckBoxText\CheckBoxText;
 use CusForm\FormItem\RadioText\RadioText;
-use CusForm\Model\FormItemModel;
 
 
 class CusFormProvider implements Provider,LaravelProvider
@@ -23,9 +22,6 @@ class CusFormProvider implements Provider,LaravelProvider
         RegisterContainer::registerController('admin','FormApply',FormApplyController::class);
 
         RegisterContainer::registerSymLink(WWW_DIR . '/Public/cusform', __DIR__ . '/../js/formily/antd/build');
-
-        RegisterContainer::registerFormItem(FormItemModel::RADIO_TEXT,RadioText::class);
-        RegisterContainer::registerFormItem(FormItemModel::CHECKBOX_TEXT,CheckBoxText::class);
     }
 
     public function registerLara()
