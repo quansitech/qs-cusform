@@ -29831,4 +29831,7 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .formily-button-group button:last-child {
   margin-right: 0;
 }
+.ant-formily-item-label-content label {
+  display: unset;
+}
 
