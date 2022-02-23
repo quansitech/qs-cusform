@@ -52,17 +52,18 @@ php artisan migrate
   | getApplySchema | 获取用户提交的表单数据       | int apply_id 用户数据的主键id<br />string mode edit(可编辑)\|readonly (只读) | stdClass json对象类型                                        |
   | editApply      | 编辑用户提交的表单数据       | int apply_id 用户数据的主键id<br />stdClass post_object 提交字段的json对象 | [flag, error] <br />falg为true或者false<br />false时error保存出错信息 |
   | submitApply    | 新增用户提交的表单数据       | int form_id 自定义表单主键id<br />stdClass post_object 提交的字段json对象 | [res, error] <br />res 如果是false error保存出错信息<br />否则 res 返回 apply_id |
+  | getApplyRecord | 获取用户填写记录             | int apply_id 用户数据主键id                                  | array 内容索引数组<br />`[ 0 => { component_type: 'input', title：'标题', value: '1234'} ]` |
 
 
 
 + Builder
 
-  | 方法       | 说明                          | 参数                         | 返回值类型       |
-  | ---------- | ----------------------------- | ---------------------------- | ---------------- |
-  | __contruct | 构造函数                      | Object json_schema的json对象 | 无               |
-  | build      | 生成新的json_schema的json对象 |                              | stdClass         |
-  | addBefore  | 在自定义表单前插入字段组件    | BaseComponent 组件对象       | Builder 当前对象 |
-  | addAfter   | 在自定义表单后插入字段组件    | BaseComponent 组件对象       | Builder 当前对象 |
+  | 方法       | 说明                          | 参数                         | 返回值类型 |
+  | ---------- | ----------------------------- | ---------------------------- | ---------- |
+  | __contruct | 构造函数                      | Object json_schema的json对象 | 无         |
+  | build      | 生成新的json_schema的json对象 |                              | stdClass   |
+  | addBefore  | 在自定义表单前插入字段组件    | BaseComponent 组件对象       | this       |
+  | addAfter   | 在自定义表单后插入字段组件    | BaseComponent 组件对象       | this       |
 
 
 
@@ -71,14 +72,14 @@ php artisan migrate
   | 方法        | 说明                | 参数                                                         | 返回值类型                                                   |
   | ----------- | ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
   | __construct | 构造函数            | string sign  字段标识                                        |                                                              |
-  | value       | 设置组件的值        | string \| stdClass \| array \| number value                  | BaseComponent 当前对象                                       |
-  | type        | 组件值类型          | string type                                                  | BaseComponent 当前对象                                       |
-  | title       | 标题                | string title                                                 | BaseComponent 当前对象                                       |
-  | required    | 必填                | bool required 默认值true                                     | BaseComponent 当前对象                                       |
-  | description | 说明                | string description                                           | BaseComponent 当前对象                                       |
-  | default     | 默认值              | string \| stdClass \| array \| number default                | BaseComponent 当前对象                                       |
-  | validator   | 验证器              | string validator  <br />可选项： email、enum、idcard、integer、number<br />、phone、required、url | BaseComponent 当前对象                                       |
-  | enum        | 数据源              | array enum <br />[[ 'label' => '1分', 'value' => 1],[ 'label' => '2分', 'value' => 2]] | BaseComponent 当前对象                                       |
+  | value       | 设置组件的值        | string \| stdClass \| array \| number value                  | this                                                         |
+  | type        | 组件值类型          | string type                                                  | this                                                         |
+  | title       | 标题                | string title                                                 | this                                                         |
+  | required    | 必填                | bool required 默认值true                                     | this                                                         |
+  | description | 说明                | string description                                           | this                                                         |
+  | default     | 默认值              | string \| stdClass \| array \| number default                | this                                                         |
+  | validator   | 验证器              | string validator  <br />可选项： email、enum、idcard、integer、number<br />、phone、required、url | this                                                         |
+  | enum        | 数据源              | array enum <br />[[ 'label' => '1分', 'value' => 1],[ 'label' => '2分', 'value' => 2]]this | this                                                         |
   | validate    | 验证                |                                                              | array<br />[true, ''] 验证通过<br />[false, '错误原因'] 验证失败 |
   | readonly    | 设置成只读          |                                                              | BaseComponent 当前对象                                       |
   | build       | 创建组件json_schema |                                                              | array<br />[sign, component]<br />sign: 组件标识<br />component: json_schema |
@@ -87,12 +88,12 @@ php artisan migrate
 
 + Input （BaseComponent实现类）
 
-  | 方法        | 说明       | 参数                                            | 返回值类型     |
-  | ----------- | ---------- | ----------------------------------------------- | -------------- |
-  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |                |
-  | placeholder | 占位符     | string placeholder 占位符                       | Input 当前对象 |
-  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | Input 当前对象 |
-  | maxLength   | 最大长度   | int maxLength                                   | Input 当前对象 |
+  | 方法        | 说明       | 参数                                            | 返回值类型 |
+  | ----------- | ---------- | ----------------------------------------------- | ---------- |
+  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |            |
+  | placeholder | 占位符     | string placeholder 占位符                       | this       |
+  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | this       |
+  | maxLength   | 最大长度   | int maxLength                                   | this       |
 
   
 
@@ -106,14 +107,53 @@ php artisan migrate
 
 + Textarea （BaseComponent实现类）
 
-  | 方法        | 说明       | 参数                                            | 返回值类型        |
-  | ----------- | ---------- | ----------------------------------------------- | ----------------- |
-  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |                   |
-  | placeholder | 占位符     | string placeholder 占位符                       | Textarea 当前对象 |
-  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | Textarea 当前对象 |
-  | showCount   | 展示字数   | bool showCount                                  | Textarea 当前对象 |
+  | 方法        | 说明       | 参数                                            | 返回值类型 |
+  | ----------- | ---------- | ----------------------------------------------- | ---------- |
+  | __construct | 构造函数   | string sign 组件标识<br />string title 组件标题 |            |
+  | placeholder | 占位符     | string placeholder 占位符this                   | this       |
+  | allowClear  | 是否可清空 | bool allowclear <br />true 启用可清空按钮       | this       |
+  | showCount   | 展示字数   | bool showCount                                  | this       |
+
+
+
++ Text （BaseComponent实现类）
+
+  | 方法        | 说明     | 参数                           | 返回值类型 |
+  | ----------- | -------- | ------------------------------ | ---------- |
+  | __construct | 构造函数 | string title 组件标题 默认为空 |            |
+  | content     | 设置内容 | string content                 | this       |
+
+
+
++ DatePicker （BaseComponent实现类）
+
+  | 方法        | 说明           | 参数                                                      | 返回值类型 |
+  | ----------- | -------------- | --------------------------------------------------------- | ---------- |
+  | __construct | 构造函数       | string sign 组件标识<br />string title 组件标题           |            |
+  | placeholder | 占位符         | string placeholder 占位符this                             | this       |
+  | allowClear  | 是否可清空     | bool allowclear <br />true 启用可清空按钮                 | this       |
+  | picker      | 设置展示类型   | string mode<br />year \| time \| date \| month \| quarter | this       |
+  | showTime    | 是否可录入时间 | bool show                                                 | this       |
+
+
+
++ formilyBuilder
+
+  | 方法         | 说明                                                  | 参数                                                    | 返回值类型 |
+  | ------------ | ----------------------------------------------------- | ------------------------------------------------------- | ---------- |
+  | __construct  | 构造函数                                              | int apply_id 用户数据的主键id<br />stdClass json_schema |            |
+  | setMode      | 只读\|编辑                                            | string mode<br />readonly \| edit                       | this       |
+  | setPostUrl   | 设置表单提交地址<br />默认提交到 admin/formApply/edit | string url                                              | this       |
+  | hideButton   | 隐藏按钮 默认为不隐藏                                 | bool hide                                               | this       |
+  | setReturnUrl | 设置返回按钮跳转地址                                  | string return_url                                       | this       |
 
   
+
+## 自定义验证器
+
+1. 在Schema\Validator 新增新的验证类
+2. 继承BaseValidator基类
+3. 实现validate 和 errorMsg方法, validate负责对数据进行验证， errorMsg返回验证失败时的错误提示
 
 
 
