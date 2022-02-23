@@ -29456,6 +29456,32 @@ div.ant-typography-edit-content.ant-typography-rtl {
   color: #888;
 }
 
+.ant-picker-datetime-panel {
+  max-width: 449px;
+  width: 100vw;
+}
+.ant-picker-datetime-panel .ant-picker-date-panel {
+  width: 70%;
+}
+.ant-picker-datetime-panel .ant-picker-time-panel {
+  width: 30%;
+}
+.ant-picker-datetime-panel .ant-picker-body {
+  padding: 0;
+}
+.ant-picker-datetime-panel .ant-picker-body .ant-picker-content {
+  width: 100%;
+}
+.ant-picker-datetime-panel .ant-picker-body th {
+  width: 100%;
+}
+.ant-picker-datetime-panel .ant-picker-time-panel {
+  width: 30%;
+}
+.ant-picker-datetime-panel .ant-picker-time-panel .ant-picker-time-panel-column {
+  width: unset;
+}
+
 /* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 /* stylelint-disable no-duplicate-selectors */
 /* stylelint-disable */

@@ -1,7 +1,7 @@
 <?php
 namespace CusForm\Schema\Validator;
 
-use Symfony\Component\Validator\Constraints\EmailValidator;
+use Symfony\Component\Validator\Constraints\Email as EmailValidator;
 use Symfony\Component\Validator\Validation;
 
 class Email extends BaseValidator{

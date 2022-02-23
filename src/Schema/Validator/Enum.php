@@ -18,7 +18,7 @@ class Enum extends BaseValidator{
         })->all();
 
         $validator = Validation::createValidator();
-        $violations  = $validator->validate($this->component->value, [new Choice($source)]);
+        $violations  = $validator->validate($this->component->value, [new Choice($source, null, null, is_array($this->component->value))]);
         if (0 !== count($violations)) {
             return false;
         }

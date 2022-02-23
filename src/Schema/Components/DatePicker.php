@@ -42,7 +42,7 @@ class DatePicker extends BaseComponent {
 
     public function showTime(bool $show) : DatePicker
     {
-        $this->x_component_props->picker = $show;
+        $this->x_component_props->showTime = $show;
         return $this;
     }
 
