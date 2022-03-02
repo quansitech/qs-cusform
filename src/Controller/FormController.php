@@ -38,13 +38,62 @@ class FormController extends GyListController
             ->setNIDByNode()
             ->addTopButton('addnew')
             ->addTableColumn('title', '表单标题', '', '', false)
+            ->addTableColumn("status", "状态", "status")
             ->addTableColumn('right_button', '操作', 'btn')
             ->addRightButton('self',array('title' => '编辑', 'href' => U('edit', array('id' => '__data_id__')),'class'=>'label label-primary ajax-get confirm','confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->addRightButton('self',array('title' => '编辑表单项', 'href' => U('editForm', array('id' => '__data_id__')), 'class' => 'label label-success'))
+            ->addRightButton('forbid')
             ->addRightButton('delete',array('confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->setTableDataList($data_list)
             ->setTableDataPage($page->show())
             ->display();
+    }
+
+    protected function _forbid($id){
+        $model = new FormModel();
+        $r = $model->forbid($id);
+        if($r === false){
+            $this->_error = $model->getError();
+        }
+        return $r;
+    }
+
+    protected function _resume($id){
+        $model = new FormModel();
+        $r = $model->resume($id);
+        if($r === false){
+            $this->_error = $model->getError();
+        }
+        return $r;
+    }
+
+    public function forbid(){
+        $ids = I('ids');
+        if(!$ids){
+            $this->error('请选择要禁用的数据');
+        }
+        $r = $this->_forbid($ids);
+        if($r !== false){
+            $this->success('禁用成功', 'javascript:location.reload();');
+        }
+        else{
+            $this->error($this->_getError());
+        }
+    }
+
+    public function resume(){
+        $ids = I('ids');
+        if(!$ids){
+            $this->error('请选择要启用的数据');
+        }
+        $r = $this->_resume($ids);
+        if($r !== false){
+            $this->success('启用成功', 'javascript:location.reload();');
+        }
+        else{
+            $this->error($this->_getError());
+        }
+
     }
 
     public function add(){

@@ -41,6 +41,9 @@ DatePicker.Resource = createResource(
           title: 'DatePicker',
           'x-decorator': 'FormItem',
           'x-component': 'DatePicker',
+          'x-component-props': {
+            inputReadOnly: true
+          }
         },
       },
     ],

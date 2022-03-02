@@ -3,7 +3,6 @@ import { createForm } from '@formily/core'
 import { createSchemaField } from '@formily/react'
 import {
   FormItem,
-  DatePicker,
   Checkbox,
   Cascader,
   Editable,
@@ -30,7 +29,7 @@ import {
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
-import {Form, Area, Upload, Text} from "@quansitech/qs-formily"
+import {Form, Area, Upload, Text, DatePicker} from "@quansitech/qs-formily"
 
 const SchemaField = createSchemaField({
   components: {

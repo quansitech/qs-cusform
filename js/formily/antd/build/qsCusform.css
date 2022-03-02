@@ -29481,6 +29481,13 @@ div.ant-typography-edit-content.ant-typography-rtl {
 .ant-picker-datetime-panel .ant-picker-time-panel .ant-picker-time-panel-column {
   width: unset;
 }
+.ant-picker-panel-container .ant-picker-content .ant-picker-time-panel-column {
+  overflow-y: auto;
+}
+.ant-picker-panel-container .ant-picker-content .ant-picker-time-panel-column .ant-picker-time-panel-cell-inner {
+  padding-left: 0;
+  text-align: center;
+}
 
 /* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 /* stylelint-disable no-duplicate-selectors */

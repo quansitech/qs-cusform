@@ -15,6 +15,7 @@ class DatePicker extends BaseComponent {
         $this->x_component = 'DatePicker';
         $this->type = 'string';
         $this->title = $title;
+        $this->x_component_props->inputReadOnly = true;
     }
 
     public function placeholder(string $placeholder) : DatePicker{
