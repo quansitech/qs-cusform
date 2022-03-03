@@ -6,6 +6,7 @@ namespace CusForm\Controller;
 
 use CusForm\CusForm;
 use CusForm\Helper;
+use CusForm\Model\FormApplyModel;
 use CusForm\Model\FormModel;
 use Gy_Library\GyListController;
 use Qscmf\Builder\FormBuilder;
@@ -185,7 +186,18 @@ class FormController extends GyListController
         if(!$ids){
             $this->error('请选择要删除的数据');
         }
+
+        if(!packageConfig('cusform','force_delete')){
+            $apply_model = new FormApplyModel();
+            $count = $apply_model->where(['form_id'=>['in',$ids]])->count();
+
+            if($count > 0){
+                $this->error('该表单存在用户提交数据，禁止删除');
+            }
+        }
+
         $r = $model->where(['id'=>['in',$ids]])->setField('deleted',\Qscmf\Lib\DBCont::YES_BOOL_STATUS);
+
         if ($r===false){
             $this->error($model->getError());
         }

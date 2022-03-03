@@ -26,6 +26,7 @@ php artisan migrate
 ```php
 'cusform' => [
     'form_description'=>true, //默认false ， true表示开启表单描述字段
+    'force_delete' => true, //默认为false,表示存在用户提交的表单内容则禁止删除，true表示不做删除检测
     'jsOptions' => [
         'urlPrefix' => '', //一般不用填写，如采用了非规则的网站前缀（如 https://qscmf.test/project1），需要显式添加
         'area' => [
