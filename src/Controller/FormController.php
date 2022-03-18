@@ -155,6 +155,7 @@ class FormController extends GyListController
 
     public function editForm(){
         $jsOptions = packageConfig('cusform','jsOptions') ?: [];
+        $this->assign('meta_title','表单定制');
         $this->assign('nid',Helper::getNidBy());
         $this->assign('jsOptions', json_encode($jsOptions, JSON_PRETTY_PRINT));
         $this->display(__DIR__ . '/../View/Form/editForm.html');

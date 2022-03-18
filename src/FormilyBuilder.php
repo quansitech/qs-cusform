@@ -69,7 +69,7 @@ class FormilyBuilder{
             $template = <<<template
 <div id="{$id}">
 </div>
-<?php if(!defined(qs-custom-form)){ ?>
+<?php if(!defined('qs-custom-form')){ ?>
     <link href="{$this->asset('cusform/qsCusform.css')}" rel="stylesheet" />
     <script src="{$this->asset('cusform/moment-with-locales.js')}"></script>
     <script src="{$this->asset('cusform/react.development.js')}" ></script>

@@ -107,7 +107,7 @@ abstract class BaseComponent{
         $component = new stdClass();
         $component->type = $this->type;
         $component->title = $this->title;
-        $this->description && $component->description;
+        $this->description && $component->description = $this->description;
         Helper::wrapComponentIllegalProp($component, 'x-decorator', $this->x_decorator);
         Helper::wrapComponentIllegalProp($component, 'x-component', $this->x_component);
         $this->x_validator && Helper::wrapComponentIllegalProp($component, 'x-validator', $this->x_validator);
@@ -116,7 +116,7 @@ abstract class BaseComponent{
         Helper::wrapComponentIllegalProp($component, 'x-designable-id', $sign);
         !qsEmpty($this->default) && $component->default = $this->default;
         $this->required && $component->required = $this->required;
-        count($this->enum) > 0 && $component->enum = $this->enum;
+        count((array)$this->enum) > 0 && $component->enum = $this->enum;
         return [$sign, $component];
     }
 }
