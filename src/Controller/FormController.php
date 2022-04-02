@@ -9,6 +9,7 @@ use CusForm\Helper;
 use CusForm\Model\FormApplyModel;
 use CusForm\Model\FormModel;
 use Gy_Library\GyListController;
+use Illuminate\Support\Str;
 use Qscmf\Builder\FormBuilder;
 use Qscmf\Lib\DBCont;
 
@@ -19,6 +20,7 @@ class FormController extends GyListController
         $get_data = I('get.');
         $map = array('deleted'=>DBCont::NO_BOOL_STATUS);
         $model = new FormModel();
+
         $count = $model->getListForCount($map);
         $per_page = C('ADMIN_PER_PAGE_NUM', null, false);
         if($per_page === false){
@@ -30,6 +32,7 @@ class FormController extends GyListController
 
         $data_list = $model->getListForPage($map, $page->nowPage, $page->listRows, 'create_date desc');
 
+        $this->getFormSubmitNum($data_list);
 
         $builder = new \Qscmf\Builder\ListBuilder();
 
@@ -39,15 +42,46 @@ class FormController extends GyListController
             ->setNIDByNode()
             ->addTopButton('addnew')
             ->addTableColumn('title', '表单标题', '', '', false)
+            ->addTableColumn('create_date', '创建时间', 'time')
+            ->addTableColumn('updated_date', '修改时间', 'time')
+            ->addTableColumn('submit_num', '提交数', '', '', false)
             ->addTableColumn("status", "状态", "status")
             ->addTableColumn('right_button', '操作', 'btn')
             ->addRightButton('self',array('title' => '编辑', 'href' => U('edit', array('id' => '__data_id__')),'class'=>'label label-primary ajax-get confirm','confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->addRightButton('self',array('title' => '编辑表单项', 'href' => U('editForm', array('id' => '__data_id__')), 'class' => 'label label-success'))
+            ->addRightButton('self',array('title' => '复制', 'href' => U('copy', array('id' => '__data_id__')), 'class' => 'label label-success ajax-get confirm', 'confirm-msg'=>'确定执行该操作吗?'))
             ->addRightButton('forbid')
             ->addRightButton('delete',array('confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->setTableDataList($data_list)
             ->setTableDataPage($page->show())
             ->display();
+    }
+
+    protected function getFormSubmitNum(array &$data_list){
+        $form_ids = collect($data_list)->pluck('id')->all();
+        $apply_model = new FormApplyModel();
+        $map = array('form_id'=>array('in',$form_ids));
+        $apply_nums = $apply_model->where($map)->group('form_id')->getField('form_id,count(id) as num');
+        foreach($data_list as &$data){
+            $data['submit_num'] = isset($apply_nums[$data['id']])?$apply_nums[$data['id']]:0;
+        }
+    }
+
+    public function copy($id){
+        $model = new FormModel();
+        $ent = $model->where(['id' => $id])->find();
+
+        unset($ent['id']);
+        $ent['title'] = $ent['title'] . '_副本';
+        $ent['create_date'] = time();
+        $ent['status'] = DBCont::NORMAL_STATUS;
+        $r = $model->createAdd($ent);
+        if($r !== false){
+            $this->success('复制成功', 'javascript:location.reload();');
+        }
+        else{
+            $this->error($model->getError());
+        }
     }
 
     protected function _forbid($id){
@@ -103,6 +137,7 @@ class FormController extends GyListController
             $data=I('post.');
             $data['create_date']=time();
             $data['json_schema'] = '';
+            $data['status'] = DBCont::NORMAL_STATUS;
             if ($model->createAdd($data)!==false){
                 $this->success('新增成功',U('index'));
             }else{
@@ -170,7 +205,12 @@ class FormController extends GyListController
         $data = Helper::iJson();
         $ent = D("Form")->where(['id' => $id])->find();
         if($ent){
+            $old = $ent['json_schema'];
             $ent['json_schema'] = json_encode($data);
+            if($this->isChange($old, $data)){
+                $ent['updated_date'] = time();
+            }
+
             $r = D("Form")->save($ent);
             if($r !== false){
                 $this->ajaxReturn(['status' => 1]);
@@ -179,6 +219,14 @@ class FormController extends GyListController
 
         $this->ajaxReturn(['status' => 0]);
 
+    }
+
+    protected function isChange($old, $new){
+        $old_object = json_decode($old);
+        $new_object = $new;
+        Helper::wrapComponentIllegalProp($old_object->schema, 'x-designable-id', '');
+        Helper::wrapComponentIllegalProp($new_object->schema, 'x-designable-id', '');
+        return strcmp(json_encode($old_object), json_encode($new_object)) !== 0;
     }
 
     public function delete(){
