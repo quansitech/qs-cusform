@@ -80,7 +80,7 @@ class FormItemModel extends GyListModel
         [
             'value' => self::FILE,
             'text' => '附件上传',
-            'component' => null
+            'component' => 'file'
         ],
         [
             'value' => self::DESCRIPTION,
