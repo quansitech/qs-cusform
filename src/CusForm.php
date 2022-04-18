@@ -98,8 +98,11 @@ class CusForm
                 $html.=getFullAreaByID($content);
                 break;
             case FormItemModel::FILE:
-                $title=D('FilePic')->where(['id'=>$content])->getField('title');
-                $html.='<a download href="'.showFileUrl($content).'">'.$title.'</a>';
+                $file_ids = explode(',',$content);
+                foreach ($file_ids as $file_id){
+                    $title=D('FilePic')->where(['id'=>$file_id])->getField('title');
+                    $html.='<a download href="'.showFileUrl($file_id).'">'.$title.'</a></br>';
+                }
                 break;
             case FormItemModel::RADIO_TEXT:
             case FormItemModel::CHECKBOX_TEXT:
@@ -176,6 +179,13 @@ class CusForm
                 $builder->addFormItem($content_id, $item['type'], $item['title']);
                 break;
             case FormItemModel::FILE:
+                if ($oss) {
+                    $item['type'] .= 's_oss';
+                }else {
+                    $item['type'] .= 's';
+                }
+                $builder->addFormItem($content_id, $item['type'], $item['title']);
+                break;
             case FormItemModel::PICTURE:
             case FormItemModel::PICTURES:
                 if ($oss) {
