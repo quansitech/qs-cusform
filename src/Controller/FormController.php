@@ -207,7 +207,7 @@ class FormController extends GyListController
         if($ent){
             $old = $ent['json_schema'];
             $ent['json_schema'] = json_encode($data);
-            if($this->isChange($old, $data)){
+            if($this->isChange($this->normalizeSchemaObject($old), $data)){
                 $ent['updated_date'] = time();
             }
 
@@ -219,6 +219,18 @@ class FormController extends GyListController
 
         $this->ajaxReturn(['status' => 0]);
 
+    }
+
+    protected function normalizeSchemaObject($obj){
+        $obj_decode = json_decode($obj);
+        if(!$obj_decode){
+            $new = new \StdClass();
+            $new->schema = new \StdClass();
+            return json_encode($new);
+        }
+        else{
+            return $obj;
+        }
     }
 
     protected function isChange($old, $new){
