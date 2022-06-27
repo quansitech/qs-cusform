@@ -41,6 +41,8 @@ class FormController extends GyListController
         $builder
             ->setNIDByNode()
             ->addTopButton('addnew')
+            ->addTopButton('forbid')
+            ->addTopButton('resume')
             ->addTableColumn('title', '表单标题', '', '', false)
             ->addTableColumn('create_date', '创建时间', 'time')
             ->addTableColumn('updated_date', '修改时间', 'time')
