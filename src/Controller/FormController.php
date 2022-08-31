@@ -30,7 +30,7 @@ class FormController extends GyListController
             $page = new \Gy_Library\GyPage($count, $per_page);
         }
 
-        $data_list = $model->getListForPage($map, $page->nowPage, $page->listRows, 'create_date desc');
+        $data_list = $model->getListForPage($map, $page->nowPage, $page->listRows, 'create_date desc') ?: [];
 
         $this->getFormSubmitNum($data_list);
 
