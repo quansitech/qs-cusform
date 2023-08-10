@@ -12,7 +12,8 @@ export interface IAreaDefaultProps{
 
 export interface IUploadDefaultProps{
   oss?: boolean,
-  action?: string
+  action?: string,
+  listType?: string
 }
 
 class ConfigModal{

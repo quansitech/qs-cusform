@@ -28,6 +28,7 @@ Upload.init = () => {
   const ossDefaultUrl = Config.urlPrefix + '/extends/aliyunOss/policyGet/type/file';
   const uploadDefaultUrl = Config.urlPrefix + '/api/upload/uploadFile';
   const action = Config.upload?.action || oss ? ossDefaultUrl : uploadDefaultUrl;
+  const listType = Config.upload?.listType || 'picture-circle';
 
   Upload.Resource = createResource(
     {
@@ -44,7 +45,8 @@ Upload.init = () => {
               textContent: 'Upload',
               oss,
               accept: 'image/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar',
-              action
+              action,
+              listType
             },
           },
         },
