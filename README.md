@@ -347,6 +347,8 @@ export const SchedulePage = () => {
 
 ## 开发步骤
 
+node 16.20.2
+
 1. clone 本仓库到本地
 
 2. clone [quansitech/qs-formily (github.com)](https://github.com/quansitech/qs-formily)到js/packages
@@ -356,6 +358,16 @@ export const SchedulePage = () => {
 4. 在js目录下执行yarn install
 
 5. cd js/formily/antd yarn start 进入开发调试模式；yarn build:playground 编译打包js
+
+## 编译步骤
+
+node 16.20.2
+
+1. clone 本仓库到本地
+
+2. 在js目录下执行yarn install
+
+3. cd js/formily/antd yarn build:playground 编译打包js
 
 ## 如何自定义组件
 
