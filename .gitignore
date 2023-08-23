@@ -1,3 +1,4 @@
 .idea
 /js/node_modules
 /js/dist/index.html
+/js/packages/qs-formily

@@ -54,7 +54,7 @@ export default {
     port: PORT,
     proxy: {
       '/extends': {
-        target: 'http://qscmf.test',
+        target: 'http://reading2.tunnel.t4tstudio.com',
         changeOrigin: true
       },
       '/api': {
