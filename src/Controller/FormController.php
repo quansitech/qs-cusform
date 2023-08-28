@@ -151,7 +151,8 @@ class FormController extends GyListController
                 ->setNIDByNode()
                 ->addFormItem('title','text','标题');
             if (packageConfig('cusform','form_description')===true){
-                $builder=$builder->addFormItem('description','ueditor','表单辅助说明');
+                $extra_attr = packageConfig('cusform', 'ue_extra_attr');
+                $builder=$builder->addFormItem('description','ueditor','表单辅助说明', '', '', '', $extra_attr);
             }else{
                 $builder=$builder->addFormItem('description','hidden','');
             }
@@ -182,7 +183,8 @@ class FormController extends GyListController
                 ->addFormItem('id','hidden','')
                 ->addFormItem('title','text','标题');
             if (packageConfig('cusform','form_description')===true){
-                $builder=$builder->addFormItem('description','ueditor','表单辅助说明');
+                $extra_attr = packageConfig('cusform', 'ue_extra_attr');
+                $builder=$builder->addFormItem('description','ueditor','表单辅助说明', '', '', '', $extra_attr);
             }else{
                 $builder=$builder->addFormItem('description','hidden','');
             }

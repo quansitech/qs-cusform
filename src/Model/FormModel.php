@@ -18,6 +18,6 @@ class FormModel extends GyListModel
 
     protected $_auto = array(
         array('create_date', "time", parent::MODEL_INSERT, 'function'),
-        array('updated_date', "time", parent::MODEL_INSERT, 'function'),
+        array('updated_date', "time", parent::MODEL_BOTH, 'function'),
     );
 }
