@@ -85,6 +85,7 @@ abstract class BaseComponent{
 
     public function validate() : array{
         foreach($this->validator as $validator_name){
+            //跳过自定义验证器的验证
             if(preg_match('/^\{\{([\s\S]*?)\}\}$/', $validator_name)){
                 continue;
             }
