@@ -19,14 +19,14 @@
   <script src="build/antd-with-locales.min.js"></script>
   <script type="text/javascript">
        window.onload = function(){
-    //      window.qsCusform.config.setJsOptions({
-    //        urlPrefix: '',
-    //        upload: {
-    //          oss: true
-    //        }
-    //      });
-    //      window.qsCusform.config.setFormId(1);
-    //      window.qsCusform.render(document.getElementById('root'));
+         window.qsCusform.config.setJsOptions({
+           urlPrefix: '',
+           upload: {
+             oss: true
+           }
+         });
+         window.qsCusform.config.setFormId(27);
+         window.qsCusform.render(document.getElementById('root'));
 
 
 
@@ -230,6 +230,7 @@ var qsCusformFormInstance = qsCusform.renderApply(document.getElementById('root'
                 "trhg43lo32c": {
                     "type": "Array<object>",
                     "title": "Upload",
+                    "x-validator":"{{(value, rule)=> {\n                var error = false;\n                value.forEach(item => {\n                  if(item.status === 'uploading'){\n                    error = true;\n                  }\n                });\n                return error ? {type: 'error',message: '\u6587\u4ef6\u4e0a\u4f20\u4e2d'} : '';\n            }}}",
                     "x-decorator": "FormItem",
                     "x-component": "Upload",
                     "x-component-props": {

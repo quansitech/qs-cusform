@@ -38,6 +38,15 @@ Upload.init = () => {
           props: {
             type: 'Array<object>',
             title: 'Upload',
+            'x-validator': `{{(value, rule)=> {
+                var error = false;
+                value.forEach(item => {
+                  if(item.status === 'uploading'){
+                    error = true;
+                  }
+                });
+                return error ? {type: 'error',message: '文件上传中'} : '';
+            }}}`,
             'x-decorator': 'FormItem',
             'x-component': 'Upload',
             'x-component-props': {
