@@ -85,6 +85,9 @@ abstract class BaseComponent{
 
     public function validate() : array{
         foreach($this->validator as $validator_name){
+            if(preg_match('/^\{\{([\s\S]*?)\}\}$/', $validator_name)){
+                continue;
+            }
             $validator = ValidatorFactory::make($validator_name, $this);
             $r = $validator->validate();
             if($r === false){
