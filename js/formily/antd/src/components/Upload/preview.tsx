@@ -40,7 +40,7 @@ Upload.init = () => {
             title: 'Upload',
             'x-validator': `{{(value, rule)=> {
                 var error = false;
-                value.forEach(item => {
+                value?.forEach(item => {
                   if(item.status === 'uploading'){
                     error = true;
                   }
