@@ -18,7 +18,7 @@ const createPages = (pages) => {
 export default {
   ...baseConfig,
   mode: 'production',
-  devtool: '',
+  devtool: false,
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
