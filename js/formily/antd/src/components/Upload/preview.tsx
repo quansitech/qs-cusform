@@ -25,10 +25,12 @@ Upload.init = () => {
   )
 
   const uploadTo = Config.upload?.uploadTo || 'server';
-  const hashCheck = Config.upload?.hashCheck || true;
-  const osDefaultUrl = Config.urlPrefix + '/extends/ObjectStorage/policyGet';
-  const uploadDefaultUrl = Config.urlPrefix + '/api/upload/upload?cate=file';
-  const action = Config.upload?.action || uploadTo === 'server' ? uploadDefaultUrl : osDefaultUrl;
+  const hashCheck = typeof Config.upload?.hashCheck === 'undefined' ? true : Config.upload?.hashCheck;
+  const wasmUrl = Config.upload?.wasmUrl;
+  const urlPrefix = Config.urlPrefix || '';
+  const osDefaultUrl = urlPrefix + '/extends/ObjectStorage/policyGet';
+  const uploadDefaultUrl = urlPrefix + '/api/upload/upload?cate=file';
+  const action = Config.upload?.action || (uploadTo === 'server' ? uploadDefaultUrl : osDefaultUrl);
 
   Upload.Resource = createResource(
     {
@@ -55,7 +57,8 @@ Upload.init = () => {
               uploadTo,
               hashCheck,
               accept: 'image/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar',
-              action
+              action,
+              wasmUrl
             },
           },
         },

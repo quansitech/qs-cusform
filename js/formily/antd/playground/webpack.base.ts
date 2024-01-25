@@ -36,7 +36,7 @@ export default {
   },
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.js'
   },
   resolve: {
     modules: ['node_modules'],

@@ -19,6 +19,11 @@ export default {
   ...baseConfig,
   mode: 'production',
   devtool: false,
+  output: {
+    path: path.resolve(__dirname, '../build'),
+    filename: '[name].bundle.js',
+    publicPath: '/Public/cusform/',
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',

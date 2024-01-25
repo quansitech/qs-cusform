@@ -11,7 +11,9 @@ export interface IAreaDefaultProps{
 }
 
 export interface IUploadDefaultProps{
-  oss?: boolean,
+  uploadTo?: 'oss' | 'cos' | 'tos' | 'server',
+  hashCheck?: boolean,
+  wasmUrl?: string,
   action?: string
 }
 
