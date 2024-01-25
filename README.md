@@ -395,3 +395,5 @@ node 18.19.0
 ## v3升级
 
 think-core v13升级后，builder的display方法启用，以及上传接口的改变,旧oss模块弃用，改用新的qscmf-formitem-object-storage来代替，v3做了这方便的兼容处理
+
+v3会删除v1的废弃数据表，需要自行处理数据备份。
