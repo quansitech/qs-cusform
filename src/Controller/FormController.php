@@ -4,7 +4,6 @@
 namespace CusForm\Controller;
 
 
-use CusForm\CusForm;
 use CusForm\Helper;
 use CusForm\Model\FormApplyModel;
 use CusForm\Model\FormModel;
@@ -56,7 +55,7 @@ class FormController extends GyListController
             ->addRightButton('delete',array('confirm-msg'=>'该操作会可能造成已填写的用户数据混乱，请慎重操作'))
             ->setTableDataList($data_list)
             ->setTableDataPage($page->show())
-            ->display();
+            ->build();
     }
 
     protected function getFormSubmitNum(array &$data_list){
@@ -156,7 +155,7 @@ class FormController extends GyListController
             }else{
                 $builder=$builder->addFormItem('description','hidden','');
             }
-            $builder->display();
+            $builder->build();
         }
     }
     public function edit(){
@@ -188,7 +187,7 @@ class FormController extends GyListController
             }else{
                 $builder=$builder->addFormItem('description','hidden','');
             }
-            $builder->display();
+            $builder->build();
         }
     }
 

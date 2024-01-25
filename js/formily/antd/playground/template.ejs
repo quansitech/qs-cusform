@@ -13,253 +13,254 @@
 <body>
   <div id="root">
   </div>
-  <script src="build/moment-with-locales.js"></script>
-  <script src="build/react.development.js"></script>
-  <script src="build/react-dom.development.js"></script>
-  <script src="build/antd-with-locales.min.js"></script>
+  <script type="text/javascript" src="build/moment-with-locales.js"></script>
+  <script type="text/javascript" src="build/react.development.js"></script>
+  <script type="text/javascript" src="build/react-dom.development.js"></script>
+  <script type="text/javascript" src="build/antd-with-locales.min.js"></script>
   <script type="text/javascript">
        window.onload = function(){
          window.qsCusform.config.setJsOptions({
            urlPrefix: '',
            upload: {
-             oss: true
+            hashCheck: true,
+            uploadTo: "server"
            }
          });
-         window.qsCusform.config.setFormId(27);
+         window.qsCusform.config.setFormId(1);
          window.qsCusform.render(document.getElementById('root'));
 
 
 
-var qsCusformFormInstance = qsCusform.renderApply(document.getElementById('root'), {
-    "applyId": 2,
-    "jsonSchema": {
-        "form": {
-            "formLayout": "horizontal",
-            "labelWrap": true
-        },
-        "schema": {
-            "type": "object",
-            "properties": {
-                "KHqCSTCf0iS": {
-                    "type": "string",
-                    "title": "\u7528\u6237\u59d3\u540d",
-                    "x-decorator": "FormItem",
-                    "x-component": "Text",
-                    "x-component-props": {
-                        "content": "\u7626\u718a"
-                    },
-                    "x-designable-id": "KHqCSTCf0iS",
-                    "x-index": 0
-                },
-                "vxoTYiRv8P6": {
-                    "type": "string",
-                    "title": "\u7528\u6237\u6635\u79f0",
-                    "x-decorator": "FormItem",
-                    "x-component": "Text",
-                    "x-component-props": {
-                        "content": "\u8521\u67d0\u5a771"
-                    },
-                    "x-designable-id": "vxoTYiRv8P6",
-                    "x-index": 1
-                },
-                "juSkDLDJpUn": {
-                    "type": "string",
-                    "title": "\u6240\u5c5e\u8bfe\u7a0b",
-                    "x-decorator": "FormItem",
-                    "x-component": "Text",
-                    "x-component-props": {
-                        "content": "\u4e66\u99992"
-                    },
-                    "x-designable-id": "juSkDLDJpUn",
-                    "x-index": 2
-                },
-                "r5sbRC6jvCq": {
-                    "type": "string",
-                    "title": "\u6240\u5c5e\u673a\u6784\/\u5b66\u6821",
-                    "x-decorator": "FormItem",
-                    "x-component": "Text",
-                    "x-component-props": {
-                        "content": "\u6267\u4fe1\u4e2d\u5b661"
-                    },
-                    "x-designable-id": "r5sbRC6jvCq",
-                    "x-index": 3
-                },
-                "class_name": {
-                    "type": "string",
-                    "title": "\u4e0a\u8bfe\u73ed\u7ea7",
-                    "description": "\u5982\uff1a\u4e09\u5e742\u73ed",
-                    "x-decorator": "FormItem",
-                    "x-component": "Input",
-                    "x-component-props": {
-                        "placeholder": "\u8bf7\u8f93\u5165\u4e0a\u8bfe\u73ed\u7ea7",
-                        "maxLength": 20
-                    },
-                    "x-designable-id": "class_name",
-                    "default": "\u4e0a\u8bfe\u73ed\u7ea7",
-                    "required": true,
-                    "x-index": 4
-                },
-                "student_num": {
-                    "type": "string",
-                    "title": "\u5b66\u751f\u4eba\u6570",
-                    "description": "\u586b\u5199\u6570\u5b57\u5373\u53ef, \u5982: 50",
-                    "x-decorator": "FormItem",
-                    "x-component": "Input",
-                    "x-validator": "integer",
-                    "x-component-props": {
-                        "placeholder": "\u8bf7\u8f93\u5165\u4eba\u6570",
-                        "maxLength": 10
-                    },
-                    "x-designable-id": "student_num",
-                    "default": "12",
-                    "required": true,
-                    "x-index": 5
-                },
-                "schooltime": {
-                    "type": "string",
-                    "title": "\u4e0a\u8bfe\u65f6\u95f4",
-                    "description": "\u5373\u65e5\u8d77\u7684\u4e24\u4e2a\u6708\u5185",
-                    "x-decorator": "FormItem",
-                    "x-component": "DatePicker",
-                    "x-component-props": {
-                        "inputReadOnly": true,
-                        "placeholder": "\u8bf7\u9009\u62e9\u4e0a\u8bfe\u65f6\u95f4",
-                        "allowClear": true,
-                        "picker": "date"
-                    },
-                    "x-designable-id": "schooltime",
-                    "default": "2022-02-25",
-                    "required": true,
-                    "x-index": 6
-                },
-                "vzv3gylijo5": {
-                    "type": "string",
-                    "title": "\u59d3\u540d",
-                    "x-decorator": "FormItem",
-                    "x-component": "Input",
-                    "x-validator": [],
-                    "x-component-props": {
-                        "placeholder": "\u8bf7\u8f93\u5165\u4f60\u7684\u59d3\u540d"
-                    },
-                    "description": "",
-                    "required": true,
-                    "x-designable-id": "vzv3gylijo5",
-                    "x-index": 7,
-                    "default": "888"
-                },
-                "oojbulncaet": {
-                    "type": "string",
-                    "title": "TextArea",
-                    "x-decorator": "FormItem",
-                    "x-component": "Input.TextArea",
-                    "x-component-props": {},
-                    "x-designable-id": "oojbulncaet",
-                    "x-index": 8
-                },
-                "24q3ivg92x7": {
-                    "title": "Select",
-                    "x-decorator": "FormItem",
-                    "x-component": "Select",
-                    "x-component-props": {},
-                    "enum": [
-                        {
-                            "label": "1",
-                            "value": "1"
-                        },
-                        {
-                            "label": "2",
-                            "value": "2"
-                        },
-                        {
-                            "label": "3",
-                            "value": "3"
-                        }
-                    ],
-                    "default": "1",
-                    "x-designable-id": "24q3ivg92x7",
-                    "x-index": 9
-                },
-                "tqxuog8q2hj": {
-                    "type": "string | number",
-                    "title": "Radio Group",
-                    "x-decorator": "FormItem",
-                    "x-component": "Radio.Group",
-                    "enum": [
-                        {
-                            "label": "\u9009\u98791",
-                            "value": "\u9009\u98791"
-                        },
-                        {
-                            "label": "\u9009\u98792",
-                            "value": "\u9009\u98792"
-                        }
-                    ],
-                    "x-designable-id": "tqxuog8q2hj",
-                    "x-index": 10
-                },
-                "5bbex8c4i4d": {
-                    "type": "Array<string | number>",
-                    "title": "Checkbox Group",
-                    "x-decorator": "FormItem",
-                    "x-component": "Checkbox.Group",
-                    "enum": [
-                        {
-                            "label": "\u9009\u98791",
-                            "value": "\u9009\u98791"
-                        },
-                        {
-                            "label": "\u9009\u98792",
-                            "value": "\u9009\u98792"
-                        }
-                    ],
-                    "x-designable-id": "5bbex8c4i4d",
-                    "x-index": 11
-                },
-                "y7m4xyedt25": {
-                    "type": "Array<string | number>",
-                    "title": "Area",
-                    "x-decorator": "FormItem",
-                    "x-component": "Area",
-                    "x-component-props": {
-                        "needAddress": true,
-                        "url": "https:\/\/tslj.t4tstudio.com\/reading_2\/extends\/area\/getAreaById"
-                    },
-                    "x-designable-id": "y7m4xyedt25",
-                    "x-index": 12
-                },
-                "trhg43lo32c": {
-                    "type": "Array<object>",
-                    "title": "Upload",
-                    "x-validator":"{{(value, rule)=> {\n                var error = false;\n                value.forEach(item => {\n                  if(item.status === 'uploading'){\n                    error = true;\n                  }\n                });\n                return error ? {type: 'error',message: '\u6587\u4ef6\u4e0a\u4f20\u4e2d'} : '';\n            }}}",
-                    "x-decorator": "FormItem",
-                    "x-component": "Upload",
-                    "x-component-props": {
-                        "textContent": "Upload",
-                        "oss": true,
-                        "accept": "image\/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar",
-                        "action": "http:\/\/127.0.0.1:3000\/extends\/aliyunOss\/policyGet\/type\/file"
-                    },
-                    "x-designable-id": "trhg43lo32c",
-                    "x-index": 13,
-                    "default": [
-                        {
-                            "status": "done",
-                            "name": "64dddc23e3651.jpeg",
-                            "file_id": "607",
-                            "file_url": "https:\/\/quansi-test.oss-cn-shenzhen.aliyuncs.com\/Uploads\/file\/20230822\/64e4503b192ac.jpeg",
-                            "url": "https:\/\/quansi-test.oss-cn-shenzhen.aliyuncs.com\/Uploads\/file\/20230822\/64e4503b192ac.jpeg"
-                        }
-                    ]
-                }
-            },
-            "x-designable-id": "ghsg2mk1gdl"
-        }
-    },
-    "mode": "edit",
-    "postUrl": "\/Admin\/ClassSchedule\/edit\/id\/3.html",
-    "hideButton": false,
-    "returnUrl": null
-});
+//  var qsCusformFormInstance = qsCusform.renderApply(document.getElementById('root'), {
+//     "applyId": 2,
+//     "jsonSchema": {
+//         "form": {
+//             "formLayout": "horizontal",
+//             "labelWrap": true
+//         },
+//         "schema": {
+//             "type": "object",
+//             "properties": {
+//                 "KHqCSTCf0iS": {
+//                     "type": "string",
+//                     "title": "\u7528\u6237\u59d3\u540d",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Text",
+//                     "x-component-props": {
+//                         "content": "\u7626\u718a"
+//                     },
+//                     "x-designable-id": "KHqCSTCf0iS",
+//                     "x-index": 0
+//                 },
+//                 "vxoTYiRv8P6": {
+//                     "type": "string",
+//                     "title": "\u7528\u6237\u6635\u79f0",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Text",
+//                     "x-component-props": {
+//                         "content": "\u8521\u67d0\u5a771"
+//                     },
+//                     "x-designable-id": "vxoTYiRv8P6",
+//                     "x-index": 1
+//                 },
+//                 "juSkDLDJpUn": {
+//                     "type": "string",
+//                     "title": "\u6240\u5c5e\u8bfe\u7a0b",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Text",
+//                     "x-component-props": {
+//                         "content": "\u4e66\u99992"
+//                     },
+//                     "x-designable-id": "juSkDLDJpUn",
+//                     "x-index": 2
+//                 },
+//                 "r5sbRC6jvCq": {
+//                     "type": "string",
+//                     "title": "\u6240\u5c5e\u673a\u6784\/\u5b66\u6821",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Text",
+//                     "x-component-props": {
+//                         "content": "\u6267\u4fe1\u4e2d\u5b661"
+//                     },
+//                     "x-designable-id": "r5sbRC6jvCq",
+//                     "x-index": 3
+//                 },
+//                 "class_name": {
+//                     "type": "string",
+//                     "title": "\u4e0a\u8bfe\u73ed\u7ea7",
+//                     "description": "\u5982\uff1a\u4e09\u5e742\u73ed",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Input",
+//                     "x-component-props": {
+//                         "placeholder": "\u8bf7\u8f93\u5165\u4e0a\u8bfe\u73ed\u7ea7",
+//                         "maxLength": 20
+//                     },
+//                     "x-designable-id": "class_name",
+//                     "default": "\u4e0a\u8bfe\u73ed\u7ea7",
+//                     "required": true,
+//                     "x-index": 4
+//                 },
+//                 "student_num": {
+//                     "type": "string",
+//                     "title": "\u5b66\u751f\u4eba\u6570",
+//                     "description": "\u586b\u5199\u6570\u5b57\u5373\u53ef, \u5982: 50",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Input",
+//                     "x-validator": "integer",
+//                     "x-component-props": {
+//                         "placeholder": "\u8bf7\u8f93\u5165\u4eba\u6570",
+//                         "maxLength": 10
+//                     },
+//                     "x-designable-id": "student_num",
+//                     "default": "12",
+//                     "required": true,
+//                     "x-index": 5
+//                 },
+//                 "schooltime": {
+//                     "type": "string",
+//                     "title": "\u4e0a\u8bfe\u65f6\u95f4",
+//                     "description": "\u5373\u65e5\u8d77\u7684\u4e24\u4e2a\u6708\u5185",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "DatePicker",
+//                     "x-component-props": {
+//                         "inputReadOnly": true,
+//                         "placeholder": "\u8bf7\u9009\u62e9\u4e0a\u8bfe\u65f6\u95f4",
+//                         "allowClear": true,
+//                         "picker": "date"
+//                     },
+//                     "x-designable-id": "schooltime",
+//                     "default": "2022-02-25",
+//                     "required": true,
+//                     "x-index": 6
+//                 },
+//                 "vzv3gylijo5": {
+//                     "type": "string",
+//                     "title": "\u59d3\u540d",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Input",
+//                     "x-validator": [],
+//                     "x-component-props": {
+//                         "placeholder": "\u8bf7\u8f93\u5165\u4f60\u7684\u59d3\u540d"
+//                     },
+//                     "description": "",
+//                     "required": true,
+//                     "x-designable-id": "vzv3gylijo5",
+//                     "x-index": 7,
+//                     "default": "888"
+//                 },
+//                 "oojbulncaet": {
+//                     "type": "string",
+//                     "title": "TextArea",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Input.TextArea",
+//                     "x-component-props": {},
+//                     "x-designable-id": "oojbulncaet",
+//                     "x-index": 8
+//                 },
+//                 "24q3ivg92x7": {
+//                     "title": "Select",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Select",
+//                     "x-component-props": {},
+//                     "enum": [
+//                         {
+//                             "label": "1",
+//                             "value": "1"
+//                         },
+//                         {
+//                             "label": "2",
+//                             "value": "2"
+//                         },
+//                         {
+//                             "label": "3",
+//                             "value": "3"
+//                         }
+//                     ],
+//                     "default": "1",
+//                     "x-designable-id": "24q3ivg92x7",
+//                     "x-index": 9
+//                 },
+//                 "tqxuog8q2hj": {
+//                     "type": "string | number",
+//                     "title": "Radio Group",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Radio.Group",
+//                     "enum": [
+//                         {
+//                             "label": "\u9009\u98791",
+//                             "value": "\u9009\u98791"
+//                         },
+//                         {
+//                             "label": "\u9009\u98792",
+//                             "value": "\u9009\u98792"
+//                         }
+//                     ],
+//                     "x-designable-id": "tqxuog8q2hj",
+//                     "x-index": 10
+//                 },
+//                 "5bbex8c4i4d": {
+//                     "type": "Array<string | number>",
+//                     "title": "Checkbox Group",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Checkbox.Group",
+//                     "enum": [
+//                         {
+//                             "label": "\u9009\u98791",
+//                             "value": "\u9009\u98791"
+//                         },
+//                         {
+//                             "label": "\u9009\u98792",
+//                             "value": "\u9009\u98792"
+//                         }
+//                     ],
+//                     "x-designable-id": "5bbex8c4i4d",
+//                     "x-index": 11
+//                 },
+//                 "y7m4xyedt25": {
+//                     "type": "Array<string | number>",
+//                     "title": "Area",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Area",
+//                     "x-component-props": {
+//                         "needAddress": true,
+//                         "url": "https:\/\/tslj.t4tstudio.com\/reading_2\/extends\/area\/getAreaById"
+//                     },
+//                     "x-designable-id": "y7m4xyedt25",
+//                     "x-index": 12
+//                 },
+//                 "trhg43lo32c": {
+//                     "type": "Array<object>",
+//                     "title": "Upload",
+//                     "x-validator":"{{(value, rule)=> {\n                var error = false;\n                value.forEach(item => {\n                  if(item.status === 'uploading'){\n                    error = true;\n                  }\n                });\n                return error ? {type: 'error',message: '\u6587\u4ef6\u4e0a\u4f20\u4e2d'} : '';\n            }}}",
+//                     "x-decorator": "FormItem",
+//                     "x-component": "Upload",
+//                     "x-component-props": {
+//                         "textContent": "Upload",
+//                         "oss": true,
+//                         "accept": "image\/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar",
+//                         "action": "http:\/\/127.0.0.1:3000\/extends\/aliyunOss\/policyGet\/type\/file"
+//                     },
+//                     "x-designable-id": "trhg43lo32c",
+//                     "x-index": 13,
+//                     "default": [
+//                         {
+//                             "status": "done",
+//                             "name": "64dddc23e3651.jpeg",
+//                             "file_id": "607",
+//                             "file_url": "https:\/\/quansi-test.oss-cn-shenzhen.aliyuncs.com\/Uploads\/file\/20230822\/64e4503b192ac.jpeg",
+//                             "url": "https:\/\/quansi-test.oss-cn-shenzhen.aliyuncs.com\/Uploads\/file\/20230822\/64e4503b192ac.jpeg"
+//                         }
+//                     ]
+//                 }
+//             },
+//             "x-designable-id": "ghsg2mk1gdl"
+//         }
+//     },
+//     "mode": "edit",
+//     "postUrl": "\/Admin\/ClassSchedule\/edit\/id\/3.html",
+//     "hideButton": false,
+//     "returnUrl": null
+// });
 
       }
   </script>

@@ -37,7 +37,7 @@ export default {
     }),
     ...createPages([
       {
-        filename: 'index.html',
+        filename:'index.html',
         template: path.resolve(__dirname, './template.ejs'),
         chunk: ['qsCusform'],
       },
@@ -52,13 +52,16 @@ export default {
     host: '127.0.0.1',
     open: true,
     port: PORT,
+    static: {
+      directory: path.join(__dirname, '../'),
+    },
     proxy: {
       '/extends': {
-        target: 'http://reading.test',
+        target: 'http://qsproject.test',
         changeOrigin: true
       },
       '/api': {
-        target: 'http://qscmf.test',
+        target: 'http://qsproject.test',
         changeOrigin: true
       },
       '/admin': {

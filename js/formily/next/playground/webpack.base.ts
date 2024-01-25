@@ -74,7 +74,9 @@ export default {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => autoprefixer(),
+              postcssOptions: {
+                plugins: () => autoprefixer()
+              }
             },
           },
           {
@@ -98,7 +100,9 @@ export default {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => autoprefixer(),
+              postcssOptions: {
+                plugins: () => autoprefixer()
+              }
             },
           },
           {

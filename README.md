@@ -348,7 +348,7 @@ export const SchedulePage = () => {
 
 ## 开发步骤
 
-node 16.20.2
+node 18.19.0
 
 1. clone 本仓库到本地
 
@@ -356,19 +356,19 @@ node 16.20.2
 
 3. clone [alibaba/formily: Alibaba Group Unified Form Solution -- Support React/ReactNative/Vue2/Vue3 (github.com)](https://github.com/alibaba/formily)将packages改名formilySrc，并移到js文件夹下（仅调试formily的源码时才需要）
 
-4. 在js目录下执行yarn install
+4. 在js目录下执行npm i
 
-5. cd js/formily/antd yarn start 进入开发调试模式；yarn build:playground 编译打包js
+5. cd js/formily/antd npm run start 进入开发调试模式；npm run build:playground 编译打包js
 
 ## 编译步骤
 
-node 16.20.2
+node 18.19.0
 
 1. clone 本仓库到本地
 
-2. 在js目录下执行yarn install
+2. 在js目录下执行npm i
 
-3. cd js/formily/antd yarn build:playground 编译打包js
+3. cd js/formily/antd npm run build:playground 编译打包js
 
 ## 如何自定义组件
 
@@ -391,3 +391,7 @@ node 16.20.2
 4. 在js/formily/antd/src/locales中添加中英对照
 
 5. 如需要添加自定义属性组件，可在js/formily/setters/src/components下新增组件
+
+## v3升级
+
+think-core v13升级后，builder的display方法启用，以及上传接口的改变,旧oss模块弃用，改用新的qscmf-formitem-object-storage来代替，v3做了这方便的兼容处理

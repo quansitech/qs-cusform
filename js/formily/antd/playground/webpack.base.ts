@@ -74,7 +74,9 @@ export default {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => autoprefixer(),
+              postcssOptions: {
+                plugins: () => autoprefixer()
+              }
             },
           },
           {
@@ -83,7 +85,9 @@ export default {
               // modifyVars: getThemeVariables({
               //   dark: true, // 开启暗黑模式
               // }),
-              javascriptEnabled: true,
+              lessOptions: {
+                javascriptEnabled: true
+              }
             },
           },
         ],

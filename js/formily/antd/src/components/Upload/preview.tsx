@@ -24,10 +24,11 @@ Upload.init = () => {
     },
   )
 
-  const oss = Config.upload?.oss || false;
-  const ossDefaultUrl = Config.urlPrefix + '/extends/aliyunOss/policyGet/type/file';
-  const uploadDefaultUrl = Config.urlPrefix + '/api/upload/uploadFile';
-  const action = Config.upload?.action || oss ? ossDefaultUrl : uploadDefaultUrl;
+  const uploadTo = Config.upload?.uploadTo || 'server';
+  const hashCheck = Config.upload?.hashCheck || true;
+  const osDefaultUrl = Config.urlPrefix + '/extends/ObjectStorage/policyGet';
+  const uploadDefaultUrl = Config.urlPrefix + '/api/upload/upload?cate=file';
+  const action = Config.upload?.action || uploadTo === 'server' ? uploadDefaultUrl : osDefaultUrl;
 
   Upload.Resource = createResource(
     {
@@ -51,7 +52,8 @@ Upload.init = () => {
             'x-component': 'Upload',
             'x-component-props': {
               textContent: 'Upload',
-              oss,
+              uploadTo,
+              hashCheck,
               accept: 'image/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar',
               action
             },
