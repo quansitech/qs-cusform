@@ -34,7 +34,9 @@ php artisan migrate
             'url' => '', //地区组件获取地区数据的api，一般不用填写，如需要自定义获取api，可通过填写覆盖默认的api
         ],
         'upload' => [
-            'oss' => true,//是否开启oss上传功能，true开启，false 关闭，默认为false
+            'uploadTo' => 'oss',//设置图片存储方式，可选项：oss、tos、cos、server
+            'hashCheck' => false, //是否开启查重 默认true
+            'wasmUrl' => 'http://qsproject.test/Public/libs/oss/wasm/md5.wasm', //指定计算md5的wasm文件地址，默认当前域名/Public/cusform/*****.wasm
             'action' => '' //上传地址，默认请求组件提供的上传接口，如需自定义可修改
         ]
     ]
