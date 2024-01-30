@@ -254,6 +254,11 @@ $this->ajaxReturn($builder->build());
 
 ### 6.前台获取自定义表单
 
+安装扩展
+```shell
+npm i @formily/core @formily/react @formily/antd @quansitech/qs-formily antd
+```
+
 ```php
 import React from 'react'
 import { createForm } from '@formily/core'
