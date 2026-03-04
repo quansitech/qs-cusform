@@ -36,7 +36,11 @@ class AddMenuCusForm extends Migration
     public function up()
     {
         //
-        $menuGenerate = new \Larafortp\MenuGenerate();
+        if(class_exists('\Larafortp\MenuGenerate')){
+            $menuGenerate = new \Larafortp\MenuGenerate();
+        }else{
+            $menuGenerate = new Qscmf\Utils\MigrationHelper\MenuGenerate();
+        }
         $menuGenerate->insertAll($this->menuData);
     }
 
@@ -48,7 +52,11 @@ class AddMenuCusForm extends Migration
     public function down()
     {
         //
-        $menuGenerate = new \Larafortp\MenuGenerate();
+        if(class_exists('\Larafortp\MenuGenerate')){
+            $menuGenerate = new \Larafortp\MenuGenerate();
+        }else{
+            $menuGenerate = new Qscmf\Utils\MigrationHelper\MenuGenerate();
+        }
         $menuGenerate->insertAllRollback($this->menuData);
     }
 

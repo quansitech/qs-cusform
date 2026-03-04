@@ -318,7 +318,7 @@ class FormItemModel extends GyListModel
 
     public function addItem($data){
         $this->_handleLimit($data);
-        if($this->checkRequired($data['type'], $data) === fasle){
+        if($this->checkRequired($data['type'], $data) === false){
             return false;
         }
 
@@ -331,7 +331,7 @@ class FormItemModel extends GyListModel
 
     public function editItem($data){
         $this->_handleLimit($data);
-        if($this->checkRequired($data['type'], $data) === fasle){
+        if($this->checkRequired($data['type'], $data) === false){
             return false;
         }
 
