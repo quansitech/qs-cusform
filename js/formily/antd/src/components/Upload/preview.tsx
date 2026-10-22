@@ -42,13 +42,20 @@ Upload.init = () => {
             type: 'Array<object>',
             title: 'Upload',
             'x-validator': `{{(value, rule)=> {
-                var error = false;
+                var uploading = false;
+                var failed = false;
                 value?.forEach(item => {
                   if(item.status === 'uploading'){
-                    error = true;
+                    uploading = true;
+                  }
+                  if(item.status === 'error'){
+                    failed = true;
                   }
                 });
-                return error ? {type: 'error',message: '文件上传中'} : '';
+                if(uploading){
+                  return {type: 'error',message: '文件上传中'};
+                }
+                return failed ? {type: 'error',message: '文件上传失败'} : '';
             }}}`,
             'x-decorator': 'FormItem',
             'x-component': 'Upload',
@@ -56,7 +63,7 @@ Upload.init = () => {
               textContent: 'Upload',
               uploadTo,
               hashCheck,
-              accept: 'image/*,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar',
+              accept: 'image/*,.heic,.heif,.doc,.docx,.xls,.xlsx,.pdf,.ppt,.txt,.rar',
               action,
               wasmUrl
             },
