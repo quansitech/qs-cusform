@@ -27,7 +27,8 @@ Upload.init = () => {
   const oss = Config.upload?.oss || false;
   const ossDefaultUrl = Config.urlPrefix + '/extends/aliyunOss/policyGet/type/file';
   const uploadDefaultUrl = Config.urlPrefix + '/api/upload/uploadFile';
-  const action = Config.upload?.action || oss ? ossDefaultUrl : uploadDefaultUrl;
+  const action =
+    Config.upload?.action || (oss ? ossDefaultUrl : uploadDefaultUrl);
 
   Upload.Resource = createResource(
     {
