@@ -162,20 +162,8 @@ class CusForm
         if ($query !== '') {
             $path .= '?' . $query;
         }
-        $host = $_SERVER['HTTP_HOST'] ?? (defined('DOMAIN') ? DOMAIN : '');
-        if (!$host) {
-            return $path;
-        }
 
-        $scheme = '';
-        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-            $scheme = strtolower(trim(explode(',', (string)$_SERVER['HTTP_X_FORWARDED_PROTO'])[0]));
-        }
-        if (!in_array($scheme, ['http', 'https'], true)) {
-            $scheme = defined('HTTP_PROTOCOL') ? HTTP_PROTOCOL : 'http';
-        }
-
-        return $scheme . '://' . $host . $path;
+        return $path;
     }
 
     public function getApplyRecord(int $apply_id) : array
