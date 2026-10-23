@@ -63,8 +63,21 @@ class FormilyBuilder{
         return asset($path);
     }
 
+    protected function versionedAsset(string $path, string $local_path): string
+    {
+        $url = $this->asset($path);
+        if (is_file($local_path)) {
+            $url .= (strpos($url, '?') === false ? '?' : '&') . 'v=' . filemtime($local_path);
+        }
+        return $url;
+    }
+
     public function __toString(){
             $id = Str::uuid();
+            $bundle_url = $this->versionedAsset(
+                'cusform/qsCusform.bundle.js',
+                __DIR__ . '/../js/formily/antd/build/qsCusform.bundle.js'
+            );
 
             $template = <<<template
 <div id="{$id}">
@@ -75,7 +88,7 @@ class FormilyBuilder{
     <script src="{$this->asset('cusform/react.development.js')}" ></script>
     <script src="{$this->asset('cusform/react-dom.development.js')}"></script>
     <script src="{$this->asset('cusform/antd-with-locales.min.js')}"></script>
-    <script src="{$this->asset('cusform/qsCusform.bundle.js')}"></script>
+    <script src="{$bundle_url}"></script>
     <?php define('qs-custom-form', 1); ?>
 <?php } ?>
 <script>
