@@ -150,7 +150,7 @@ class FormItemModel extends GyListModel
     private function _handleLimit(&$data){
         $limit=[];
         foreach (self::OTHER_LIMIT_LIST as $key=>$item) {
-            $limit[$key]=$data[$key];
+            $limit[$key]=$data[$key] ?? '';
             unset($data[$key]);
         }
         $data['other_limit']=json_encode($limit);
@@ -318,7 +318,7 @@ class FormItemModel extends GyListModel
 
     public function addItem($data){
         $this->_handleLimit($data);
-        if($this->checkRequired($data['type'], $data) === fasle){
+        if($this->checkRequired($data['type'], $data) === false){
             return false;
         }
 
@@ -331,7 +331,7 @@ class FormItemModel extends GyListModel
 
     public function editItem($data){
         $this->_handleLimit($data);
-        if($this->checkRequired($data['type'], $data) === fasle){
+        if($this->checkRequired($data['type'], $data) === false){
             return false;
         }
 
