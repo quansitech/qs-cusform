@@ -22,7 +22,19 @@ class CusForm
     }
 
     public function formSchema(int $form_id): ?string{
-        return D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
+        $json_schema = D("Form")->where(['id' => $form_id, 'deleted' => DBCont::NO_BOOL_STATUS])->getField('json_schema');
+        if(!$json_schema){
+            return $json_schema;
+        }
+
+        $schema = json_decode($json_schema);
+        if(!is_object($schema)){
+            return $json_schema;
+        }
+
+        $this->normalizeUploadAction($schema);
+
+        return json_encode($schema);
     }
 
     public function getApplySchema(int $apply_id, string $mode = 'edit') : stdClass
@@ -43,10 +55,11 @@ class CusForm
 
         $content = json_decode($json_content);
         foreach($content as $sign => $value){
-            if(isset($schema->schema->properties->$sign)){
-                $schema->schema->properties->$sign->default = $value;
+            if (!isset($schema->schema->properties->$sign)) {
+                continue;
             }
 
+            $schema->schema->properties->$sign->default = $value;
             if($mode === 'readonly'){
                 Helper::wrapComponentIllegalProp($schema->schema->properties->$sign, 'x-pattern', 'disabled');
             }
@@ -83,8 +96,9 @@ class CusForm
             if ($component === 'Upload') {
                 $props->action = $this->normalizeEnvUrl(
                     $props->action ?? null,
-                    '#(?:^|/)(extends/aliyunOss/policyGet(?:/type/[^/]+)?)/?$#i'
+                    '#(?:^|/)((?:extends/(?:aliyunOss|ObjectStorage)/policyGet(?:/type/[^/]+)?)|(?:api/upload/(?:uploadFile|upload)))/?$#i'
                 );
+                $props->accept = $this->normalizeUploadAccept($props->accept ?? null);
             } elseif ($component === 'Area') {
                 $props->url = $this->normalizeEnvUrl(
                     $props->url ?? null,
@@ -102,6 +116,29 @@ class CusForm
         if (is_object($property->items ?? null)) {
             $this->normalizeUploadProperty($property->items);
         }
+    }
+
+    protected function normalizeUploadAccept($accept)
+    {
+        if (!is_string($accept) || stripos($accept, 'image/*') === false) {
+            return $accept;
+        }
+
+        $items = array_values(array_filter(array_map('trim', explode(',', $accept)), 'strlen'));
+        foreach (['image/heic', 'image/heif', '.heic', '.heif'] as $heicItem) {
+            $exists = false;
+            foreach ($items as $item) {
+                if (strcasecmp($item, $heicItem) === 0) {
+                    $exists = true;
+                    break;
+                }
+            }
+            if (!$exists) {
+                $items[] = $heicItem;
+            }
+        }
+
+        return implode(',', $items);
     }
 
     protected function normalizeEnvUrl($url, string $pattern)
