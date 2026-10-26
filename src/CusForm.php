@@ -32,7 +32,7 @@ class CusForm
             return $json_schema;
         }
 
-        $this->normalizeUploadAction($schema);
+        $this->normalizeUploadProps($schema);
 
         return json_encode($schema);
     }
@@ -65,12 +65,12 @@ class CusForm
             }
         }
 
-        $this->normalizeUploadAction($schema);
+        $this->normalizeUploadProps($schema);
 
         return $schema;
     }
 
-    protected function normalizeUploadAction($schema): void
+    protected function normalizeUploadProps($schema): void
     {
         if (empty($schema->schema->properties)) {
             return;
@@ -81,29 +81,16 @@ class CusForm
         }
     }
 
-    /**
-     * 表单设计时保存的是所在环境的完整地址，读取时改成当前站点的地址，避免本地测试时请求到生产环境。
-     */
     protected function normalizeUploadProperty($property): void
     {
         if (!is_object($property)) {
             return;
         }
 
-        $props = $property->{'x-component-props'} ?? null;
-        if (is_object($props)) {
-            $component = $property->{'x-component'} ?? null;
-            if ($component === 'Upload') {
-                $props->action = $this->normalizeEnvUrl(
-                    $props->action ?? null,
-                    '#(?:^|/)((?:extends/(?:aliyunOss|ObjectStorage)/policyGet(?:/type/[^/]+)?)|(?:api/upload/(?:uploadFile|upload)))/?$#i'
-                );
+        if (($property->{'x-component'} ?? null) === 'Upload') {
+            $props = $property->{'x-component-props'} ?? null;
+            if (is_object($props)) {
                 $props->accept = $this->normalizeUploadAccept($props->accept ?? null);
-            } elseif ($component === 'Area') {
-                $props->url = $this->normalizeEnvUrl(
-                    $props->url ?? null,
-                    '#(?:^|/)(extends/area/getAreaById)/?$#i'
-                );
             }
         }
 
@@ -139,43 +126,6 @@ class CusForm
         }
 
         return implode(',', $items);
-    }
-
-    protected function normalizeEnvUrl($url, string $pattern)
-    {
-        if (!is_string($url) || $url === '') {
-            return $url;
-        }
-
-        $path = parse_url($url, PHP_URL_PATH);
-        if (!$path || !preg_match($pattern, $path, $matches)) {
-            return $url;
-        }
-
-        $query = parse_url($url, PHP_URL_QUERY);
-        return $this->buildLocalUrl($matches[1], $query ?: '');
-    }
-
-    protected function buildLocalUrl(string $route, string $query = ''): string
-    {
-        $path = (defined('__ROOT__') ? __ROOT__ : '') . '/' . ltrim($route, '/');
-        if ($query !== '') {
-            $path .= '?' . $query;
-        }
-        $host = $_SERVER['HTTP_HOST'] ?? (defined('DOMAIN') ? DOMAIN : '');
-        if (!$host) {
-            return $path;
-        }
-
-        $scheme = '';
-        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-            $scheme = strtolower(trim(explode(',', (string)$_SERVER['HTTP_X_FORWARDED_PROTO'])[0]));
-        }
-        if (!in_array($scheme, ['http', 'https'], true)) {
-            $scheme = defined('HTTP_PROTOCOL') ? HTTP_PROTOCOL : 'http';
-        }
-
-        return $scheme . '://' . $host . $path;
     }
 
     public function getApplyRecord(int $apply_id) : array
